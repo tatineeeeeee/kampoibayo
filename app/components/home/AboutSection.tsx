@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import {
   Leaf,
   Mountain,
@@ -54,6 +55,15 @@ const AboutSection = ({
   ratingCount,
   ratingLoading,
 }: AboutSectionProps) => {
+  const headerRef = useRef(null);
+  const imageRef = useRef(null);
+  const textRef = useRef(null);
+  const cardsRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
+  const imageInView = useInView(imageRef, { once: true, margin: "-80px" });
+  const textInView = useInView(textRef, { once: true, margin: "-80px" });
+  const cardsInView = useInView(cardsRef, { once: true, margin: "-60px" });
+
   return (
     <section
       id="about"
@@ -61,12 +71,9 @@ const AboutSection = ({
     >
       <div className="max-w-7xl mx-auto">
         {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-6 sm:mb-8 lg:mb-10"
+        <div
+          ref={headerRef}
+          className={`text-center mb-6 sm:mb-8 lg:mb-10 transition-all duration-700 ease-out ${headerInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
         >
           <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 leading-tight">
             About <span className="text-primary">Kampo Ibayo</span>
@@ -75,16 +82,14 @@ const AboutSection = ({
             Where comfort meets adventure in the heart of Cavite&apos;s
             natural beauty
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 items-center">
           {/* Image */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="order-2 lg:order-1"
+          <div
+            ref={imageRef}
+            className={`order-2 lg:order-1 transition-all duration-700 ease-out ${imageInView ? "opacity-100" : "opacity-0 -translate-x-10"}`}
+            style={{ transitionDelay: "100ms" }}
           >
             <div className="relative overflow-hidden rounded-xl shadow-2xl">
               <Image
@@ -113,15 +118,13 @@ const AboutSection = ({
                 </div>
               ) : null}
             </div>
-          </motion.div>
+          </div>
 
           {/* Text content */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="order-1 lg:order-2 space-y-6"
+          <div
+            ref={textRef}
+            className={`order-1 lg:order-2 space-y-6 transition-all duration-700 ease-out ${textInView ? "opacity-100" : "opacity-0 translate-x-10"}`}
+            style={{ transitionDelay: "200ms" }}
           >
             <div className="space-y-4">
               <p className="text-muted-foreground text-lg leading-relaxed">
@@ -145,15 +148,12 @@ const AboutSection = ({
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-2 xs:gap-3 sm:gap-4 pt-4">
+            <div ref={cardsRef} className="grid grid-cols-2 gap-2 xs:gap-3 sm:gap-4 pt-4">
               {featureCards.map((card, i) => (
-                <motion.div
+                <div
                   key={card.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.4, delay: 0.3 + i * 0.08 }}
-                  className={`flex flex-col xs:flex-row items-center xs:items-start gap-2 xs:gap-3 p-2 xs:p-3 bg-muted/50 rounded-lg border border-border ${card.border} transition-colors text-center xs:text-left`}
+                  className={`flex flex-col xs:flex-row items-center xs:items-start gap-2 xs:gap-3 p-2 xs:p-3 bg-muted/50 rounded-lg border border-border ${card.border} transition-all duration-500 ease-out text-center xs:text-left ${cardsInView ? "opacity-100" : "opacity-0 translate-y-5"}`}
+                  style={{ transitionDelay: cardsInView ? `${300 + i * 80}ms` : "0ms" }}
                 >
                   <div className={`w-8 h-8 xs:w-10 xs:h-10 ${card.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>
                     {card.icon}
@@ -166,10 +166,10 @@ const AboutSection = ({
                       {card.sub}
                     </p>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

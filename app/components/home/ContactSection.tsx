@@ -1,7 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import {
   MapPin,
   Phone,
@@ -23,6 +24,11 @@ interface ContactSectionProps {
 }
 
 const ContactSection = ({ user, isLoadingAuth }: ContactSectionProps) => {
+  const headerRef = useRef(null);
+  const contentRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
+  const contentInView = useInView(contentRef, { once: true, margin: "-60px" });
+
   return (
     <>
       {/* Contact Section */}
@@ -31,12 +37,9 @@ const ContactSection = ({ user, isLoadingAuth }: ContactSectionProps) => {
         className="bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8"
       >
         <div className="max-w-7xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-8 sm:mb-12 lg:mb-16"
+          <div
+            ref={headerRef}
+            className={`text-center mb-8 sm:mb-12 lg:mb-16 transition-all duration-700 ease-out ${headerInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
           >
             <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
               Contact Us
@@ -45,13 +48,11 @@ const ContactSection = ({ user, isLoadingAuth }: ContactSectionProps) => {
               Get in touch to book your stay or ask any questions about our
               resort
             </p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16"
+          </div>
+          <div
+            ref={contentRef}
+            className={`grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 xl:gap-16 transition-all duration-700 ease-out ${contentInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
+            style={{ transitionDelay: "100ms" }}
           >
             <div className="order-2 lg:order-1">
               <div className="relative isolate overflow-hidden rounded-xl shadow-2xl h-64 sm:h-80 lg:h-96 xl:h-[500px]">
@@ -190,7 +191,7 @@ const ContactSection = ({ user, isLoadingAuth }: ContactSectionProps) => {
                 Message us on Facebook
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

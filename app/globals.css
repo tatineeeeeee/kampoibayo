@@ -207,6 +207,7 @@ body {
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 /* =========================================================
@@ -226,6 +227,7 @@ html {
 .animate-fadeInUp {
   animation: fadeInUp 1s ease-out;
 }
+
 
 /* Gallery grid staggered entrance */
 .gallery-item {
@@ -255,7 +257,6 @@ html {
 /* Hero badge hover lift — replaces laggy infinite float loop */
 .hero-badge {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
-  will-change: transform;
 }
 .hero-badge:hover {
   transform: translateY(-4px);

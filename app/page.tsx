@@ -3,9 +3,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { isMaintenanceMode } from "./utils/maintenanceMode";
-import {
-  ChevronUp,
-} from "lucide-react";
 import { supabase } from "./supabaseClient";
 import { useAuth } from "./contexts/AuthContext";
 import DynamicGallery from "./components/DynamicGallery";
@@ -25,8 +22,6 @@ import { MAINTENANCE_CHECK_INTERVAL_MS } from "./lib/constants/timeouts";
 function Home() {
   const router = useRouter();
   const { user, loading: isLoadingAuth } = useAuth();
-  const [showBackToTop, setShowBackToTop] = useState(false);
-  const [chatbotOpen, setChatbotOpen] = useState(false);
   const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
   const [showBookingAuthModal, setShowBookingAuthModal] = useState(false);
 
@@ -36,6 +31,7 @@ function Home() {
   const [liveRating, setLiveRating] = useState<number | null>(null);
   const [ratingCount, setRatingCount] = useState<number>(0);
   const [ratingLoading, setRatingLoading] = useState(true);
+
 
   const handleBookCTA = (e?: React.MouseEvent) => {
     e?.preventDefault();
@@ -68,21 +64,8 @@ function Home() {
     fetchLiveRating();
   }, []);
 
-  // Admin/staff users can now view the customer site via "Customer View" link
-  // No automatic redirect - admins choose where to go via the navbar dropdown
-
-  // Track scroll position for back-to-top button
-  useEffect(() => {
-    const handleBackToTopScroll = () => {
-      setShowBackToTop(window.scrollY > 200); // Reduced threshold from 300 to 200px
-    };
-    window.addEventListener("scroll", handleBackToTopScroll);
-    return () => window.removeEventListener("scroll", handleBackToTopScroll);
-  }, []);
-
   // Load maintenance mode settings
   useEffect(() => {
-    // Clean up old localStorage keys from testing
     if (typeof window !== "undefined") {
       localStorage.removeItem("maintenanceSettings");
       localStorage.removeItem("maintenance_settings");
@@ -93,31 +76,22 @@ function Home() {
     const checkMaintenanceMode = async () => {
       try {
         const isActive = await isMaintenanceMode();
-
-        // Only update if state actually changed
         if (isActive !== lastKnownState) {
           setMaintenanceActive(isActive);
           lastKnownState = isActive;
         }
       } catch (error) {
         console.error("Error checking maintenance mode:", error);
-        // Keep previous state on error
       }
     };
 
-    // Initial check
     checkMaintenanceMode();
 
-    // Listen for settings changes from admin panel (same session only)
     const handleSettingsChange = () => {
       checkMaintenanceMode();
     };
 
-    // Frequent polling for cross-device updates
-    // Check every 3 seconds for database changes
     const interval = setInterval(checkMaintenanceMode, MAINTENANCE_CHECK_INTERVAL_MS);
-
-    // Listen for custom events from admin settings (same session only)
     window.addEventListener("maintenanceSettingsChanged", handleSettingsChange);
 
     return () => {
@@ -190,27 +164,13 @@ function Home() {
 
         <ContactSection user={user} isLoadingAuth={isLoadingAuth} />
 
-        {/* Floating Action Buttons - Properly matched sizing and positioning */}
-        {/* Chatbot - Independent positioning */}
-        <Chatbot onOpenStateChange={setChatbotOpen} />
-
-        {/* Back to Top Button - Hide when chatbot is open to prevent overlap */}
-        {showBackToTop && !chatbotOpen && (
-          <button
-            type="button"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="fixed bottom-[5rem] right-4 sm:bottom-[6.5rem] sm:right-6 z-40 bg-primary hover:bg-primary/90 text-primary-foreground h-10 w-10 sm:h-12 sm:w-12 flex items-center justify-center rounded-full shadow-lg hover:shadow-xl transition-all duration-150 transform hover:scale-110 border border-primary/80 backdrop-blur-sm"
-            aria-label="Back to top"
-          >
-            <ChevronUp className="h-5 w-5 sm:h-6 sm:w-6" />
-          </button>
-        )}
-
         <AvailabilityModal
           isOpen={showAvailabilityModal}
           onClose={() => setShowAvailabilityModal(false)}
         />
       </div>
+
+      <Chatbot />
 
       <BookingAuthModal
         isOpen={showBookingAuthModal}

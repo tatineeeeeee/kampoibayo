@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { useInView } from "framer-motion";
 import {
   ChevronDown,
   ArrowRight,
@@ -23,18 +23,22 @@ const AmenitiesSection = ({
   // Amenities accordion state - null means all closed on mobile
   const [openAmenityIndex, setOpenAmenityIndex] = useState<number | null>(null);
 
+  const headerRef = useRef(null);
+  const pricingRef = useRef(null);
+  const amenitiesGridRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
+  const pricingInView = useInView(pricingRef, { once: true, margin: "-60px" });
+  const amenitiesGridInView = useInView(amenitiesGridRef, { once: true, margin: "-60px" });
+
   return (
         <section
           id="amenities"
           className="bg-background text-foreground py-6 px-4 sm:py-8 sm:px-6 lg:py-12 lg:px-8"
         >
           <div className="max-w-7xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-8 sm:mb-12 lg:mb-16"
+            <div
+              ref={headerRef}
+              className={`text-center mb-8 sm:mb-12 lg:mb-16 transition-all duration-700 ease-out ${headerInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
             >
               <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
                 Our Amenities
@@ -43,7 +47,7 @@ const AmenitiesSection = ({
                 Complete resort facilities for up to {INCLUDED_GUESTS} guests with modern
                 comforts in a natural setting
               </p>
-            </motion.div>
+            </div>
 
             {/* Pricing Cards */}
             {/* Mobile: Side-by-side compact comparison */}
@@ -110,12 +114,10 @@ const AmenitiesSection = ({
             </div>
 
             {/* Desktop: Full pricing cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="hidden sm:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10 items-start"
+            <div
+              ref={pricingRef}
+              className={`hidden sm:grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-10 items-start transition-all duration-700 ease-out ${pricingInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: "100ms" }}
             >
               {/* Weekday Card — Featured/Hero */}
               <div className="bg-gradient-to-br from-primary/90 via-primary to-primary/80 p-5 sm:p-6 rounded-2xl relative overflow-hidden shadow-xl shadow-primary/20 ring-1 ring-primary/30 hover:-translate-y-1 transition-all duration-300 group">
@@ -198,7 +200,7 @@ const AmenitiesSection = ({
                   </div>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Amenities - Accordion on Mobile, Grid on Desktop */}
             {/* Mobile Accordion View */}
@@ -299,12 +301,10 @@ const AmenitiesSection = ({
             </div>
 
             {/* Desktop/Tablet Grid View */}
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="hidden sm:grid gap-4 mb-6 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:mb-8"
+            <div
+              ref={amenitiesGridRef}
+              className={`hidden sm:grid gap-4 mb-6 sm:grid-cols-2 lg:grid-cols-4 sm:gap-6 sm:mb-8 transition-all duration-700 ease-out ${amenitiesGridInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
+              style={{ transitionDelay: "150ms" }}
             >
               {/* Accommodation */}
               <div className="bg-card p-4 rounded-xl border border-border hover:border-primary/50 transition-all duration-300 group hover:shadow-xl sm:p-6 sm:rounded-2xl">
@@ -441,7 +441,7 @@ const AmenitiesSection = ({
                   </li>
                 </ul>
               </div>
-            </motion.div>
+            </div>
 
             {/* Quick Note */}
             <div className="bg-primary/10 border border-primary/30 p-3 rounded-xl mb-6 sm:p-4 sm:mb-8">

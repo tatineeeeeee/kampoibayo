@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { useInView } from "framer-motion";
 import {
   MessageCircleHeart,
   ArrowRight,
@@ -9,39 +10,40 @@ import {
 import ReviewSystem from "../ReviewSystem";
 
 const ReviewsSection = () => {
+  const headerRef = useRef(null);
+  const reviewsRef = useRef(null);
+  const ctaRef = useRef(null);
+  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
+  const reviewsInView = useInView(reviewsRef, { once: true, margin: "-60px" });
+  const ctaInView = useInView(ctaRef, { once: true, margin: "-40px" });
+
   return (
     <section
       id="reviews"
       className="bg-background text-foreground py-12 px-4 sm:px-6 lg:px-8"
     >
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-8 sm:mb-12 lg:mb-16"
+        <div
+          ref={headerRef}
+          className={`text-center mb-8 sm:mb-12 lg:mb-16 transition-all duration-700 ease-out ${headerInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
         >
           <h2 className="text-2xl xs:text-3xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
             What Our Guests Say
           </h2>
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+        <div
+          ref={reviewsRef}
+          className={`transition-all duration-700 ease-out ${reviewsInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
+          style={{ transitionDelay: "100ms" }}
         >
           <ReviewSystem limit={8} showPagination={false} className="" />
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="text-center mt-10"
+        <div
+          ref={ctaRef}
+          className={`text-center mt-10 transition-all duration-500 ease-out ${ctaInView ? "opacity-100" : "opacity-0 translate-y-8"}`}
+          style={{ transitionDelay: "150ms" }}
         >
           <Link
             href="/review"
@@ -51,7 +53,7 @@ const ReviewsSection = () => {
             Share Your Experience
             <ArrowRight className="w-5 h-5 ml-2" />
           </Link>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

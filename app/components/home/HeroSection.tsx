@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { CalendarDays, ArrowRight, Users, Waves, MapPin, PawPrint, Star, Wifi, Car, Shield, Clock } from "lucide-react";
-import { motion } from "framer-motion";
+
 import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND } from "../../lib/constants/pricing";
 import { supabase } from "../../supabaseClient";
 
@@ -90,11 +90,9 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
           <div className="relative z-10 max-w-xl">
 
             {/* Thin accent line + location pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+            <div
               className="flex flex-col gap-3 mb-5 sm:mb-6"
+              style={{ animationDelay: "0.2s" }}
             >
               <div className="w-10 h-0.5 bg-primary/70 rounded-full" />
               <div className="inline-flex items-center gap-2 bg-muted/50 backdrop-blur-sm border border-border rounded-full px-4 py-1.5 self-start">
@@ -103,14 +101,12 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                   Brgy. Tapia · General Trias, Cavite
                 </span>
               </div>
-            </motion.div>
+            </div>
 
             {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.35 }}
+            <h1
               className="leading-none mb-4 sm:mb-5"
+              style={{ animationDelay: "0.35s" }}
             >
               <span className="block text-base xs:text-lg sm:text-xl md:text-2xl font-light text-foreground/70 tracking-[0.25em] uppercase mb-2">
                 Your Exclusive
@@ -118,25 +114,21 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
               <span className="block font-display font-black text-foreground tracking-tight leading-[0.9] whitespace-nowrap text-[5.8vw] lg:text-[3vw] xl:text-[3.2vw] 2xl:text-[3.5vw]">
                 Nature Escape
               </span>
-            </motion.h1>
+            </h1>
 
             {/* Subtitle */}
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.55 }}
+            <p
               className="text-sm sm:text-base text-foreground/70 max-w-md leading-relaxed font-light mb-4 sm:mb-5"
+              style={{ animationDelay: "0.55s" }}
             >
               Your own private tropical retreat — perfect for families, barkada,
               and celebrations. Own the whole resort for 22 unforgettable hours.
-            </motion.p>
+            </p>
 
             {/* Micro-stats */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.7 }}
+            <div
               className="flex items-center gap-5 sm:gap-8 mb-4 sm:mb-5"
+              style={{ animationDelay: "0.7s" }}
             >
               {[
                 { value: "500+", label: "Happy Guests" },
@@ -148,14 +140,12 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                   <p className="text-muted-foreground text-[10px] uppercase tracking-widest mt-0.5">{stat.label}</p>
                 </div>
               ))}
-            </motion.div>
+            </div>
 
             {/* Trust highlights — flows directly after stats, no gap */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.9 }}
+            <div
               className="hidden lg:flex flex-col gap-2 mb-5"
+              style={{ animationDelay: "0.9s" }}
             >
               <p className="text-muted-foreground text-[10px] uppercase tracking-[0.2em]">Included in every booking</p>
               <div className="flex flex-wrap gap-x-6 gap-y-2">
@@ -172,14 +162,12 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
 
             {/* CTA Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.85 }}
+            <div
               className="flex flex-col xs:flex-row gap-3 mb-5"
+              style={{ animationDelay: "0.85s" }}
             >
               <button
                 type="button"
@@ -207,26 +195,22 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                 <span className="whitespace-nowrap">Explore Resort</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform flex-shrink-0" />
               </a>
-            </motion.div>
+            </div>
 
             {/* Price line */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 1.0 }}
+            <div
               className="flex items-baseline gap-2 mb-3"
+              style={{ animationDelay: "1.0s" }}
             >
               <span className="text-muted-foreground text-[11px] uppercase tracking-widest">Starting from</span>
               <span className="text-foreground font-bold text-base">₱{BASE_RATE_WEEKDAY.toLocaleString()}</span>
               <span className="text-muted-foreground text-[11px]">/ weekday · ₱{BASE_RATE_WEEKEND.toLocaleString()} peak &amp; weekends</span>
-            </motion.div>
+            </div>
 
             {/* Feature chips */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 1.1 }}
+            <div
               className="flex flex-wrap gap-1.5 mb-4"
+              style={{ animationDelay: "1.1s" }}
             >
               {featureChips.map((chip) => (
                 <span
@@ -237,15 +221,13 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                   {chip.label}
                 </span>
               ))}
-            </motion.div>
+            </div>
 
             {/* Guest review snippet — auto-rotating live reviews */}
             {review && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1.2 }}
+              <div
                 className="hidden [@media(min-height:900px)]:flex bg-card border border-border rounded-2xl p-3.5 max-w-md min-h-[104px] flex-col justify-between shadow-sm"
+                style={{ animationDelay: "1.2s" }}
               >
                 <div className={`flex items-start gap-3 transition-opacity duration-[400ms] ${reviewVisible ? "opacity-100" : "opacity-0"}`}>
                   <div className="w-9 h-9 rounded-full bg-primary/25 border border-primary/35 flex items-center justify-center flex-shrink-0 text-primary font-bold text-sm">
@@ -283,18 +265,16 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                     ))}
                   </div>
                 )}
-              </motion.div>
+              </div>
             )}
           </div>
         </div>
 
         {/* RIGHT PANEL — resort photo */}
         <div className="order-1 lg:order-2 lg:w-[42%] flex items-center justify-center px-6 sm:px-10 lg:pl-10 lg:pr-12 xl:pl-12 xl:pr-16 pt-20 sm:pt-24 lg:pt-0 pb-4 lg:py-10">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
+          <div
             className="relative w-full max-w-sm sm:max-w-md lg:max-w-none"
+            style={{ animationDelay: "0.3s" }}
           >
             {/* Dot grid — bottom-left */}
             <div className="absolute -bottom-5 -left-5 z-0 hidden lg:grid grid-cols-6 gap-[7px]">
@@ -326,18 +306,16 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
               <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
 
               {/* Live status badge — inside image top-left */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 1.4 }}
+              <div
                 className="absolute top-3 left-3 z-20 flex items-center gap-2 bg-card/90 backdrop-blur-md border border-border rounded-full px-3 py-1.5 shadow-lg"
+                style={{ animationDelay: "1.4s" }}
               >
                 <span className="relative flex w-2 h-2 flex-shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
                 </span>
                 <span className="text-foreground text-[11px] font-medium tracking-wide">Open for Bookings</span>
-              </motion.div>
+              </div>
             </div>
 
             {/* Corner bracket — top-left */}
@@ -347,25 +325,23 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
 
             {/* Badge — 22 Hrs Private (left-center) */}
             <div className="absolute top-1/2 -translate-y-1/2 -left-5 hidden lg:block z-20">
-              <motion.div
-                initial={{ opacity: 0, x: -8 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 1.0 }}
+              <div
+                className="hero-fade-in"
+                style={{ animationDelay: "1.0s" }}
               >
                 <div className="hero-badge flex bg-card/95 backdrop-blur-md border border-border rounded-xl px-3 py-3 shadow-xl flex-col items-center gap-0.5">
                   <span className="text-primary font-black text-xl leading-none">22</span>
                   <span className="text-muted-foreground text-[9px] uppercase tracking-wider font-medium leading-tight">Hrs</span>
                   <span className="text-muted-foreground text-[9px] uppercase tracking-wider font-medium leading-tight">Private</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Badge — Resort Rating (bottom-left) */}
             <div className="absolute -bottom-3 left-6 lg:left-4 z-20">
-              <motion.div
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.9 }}
+              <div
+                className="hero-fade-in"
+                style={{ animationDelay: "0.9s" }}
               >
                 <div className="hero-badge flex bg-card/95 backdrop-blur-md border border-border rounded-xl px-3 py-2 shadow-xl items-center gap-2.5">
                   <div className="w-8 h-8 bg-warning/20 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -376,32 +352,29 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
                     <p className="text-muted-foreground text-[10px] mt-0.5">Resort Rating</p>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             </div>
 
             {/* Badge — Location (top-right) */}
             <div className="absolute -top-3 -right-3 z-20">
-              <motion.div
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.9 }}
+              <div
+                className="hero-fade-in"
+                style={{ animationDelay: "0.9s" }}
               >
                 <div className="hero-badge flex bg-primary rounded-xl px-3 py-2 shadow-xl items-center gap-1.5">
                   <MapPin className="w-3 h-3 text-primary-foreground flex-shrink-0" />
                   <span className="text-primary-foreground font-semibold text-xs whitespace-nowrap">Cavite, PH</span>
                 </div>
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* ── STATS BAR ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.7, delay: 1.1 }}
+      <div
         className="relative z-20 px-4 sm:px-6 lg:px-8 pb-5 sm:pb-6 pt-2"
+        style={{ animationDelay: "1.1s" }}
       >
         <div className="max-w-3xl mx-auto">
           <div className="backdrop-blur-md bg-card/80 border border-border rounded-2xl overflow-hidden">
@@ -423,7 +396,7 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
             </div>
           </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

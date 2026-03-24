@@ -43,8 +43,7 @@ const Navbar = ({ onBookCTA }: { onBookCTA?: (e?: React.MouseEvent) => void }) =
   );
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsMounted(true), 100);
-    return () => clearTimeout(timer);
+    setIsMounted(true);
   }, []);
 
   // Scroll listener — transparent only on home page
