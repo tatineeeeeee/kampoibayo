@@ -8,6 +8,7 @@ import { ChatMessage, TypingIndicator } from "./ChatMessage";
 import { ChatInput } from "./ChatInput";
 
 export default function Chatbot({ onOpenStateChange }: ChatbotProps = {}) {
+
   const {
     isOpen,
     isMinimized,

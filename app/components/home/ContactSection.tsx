@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useInView } from "../../hooks/useInView";
 import {
   MapPin,
   Phone,

@@ -326,7 +326,7 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
             {/* Badge — 22 Hrs Private (left-center) */}
             <div className="absolute top-1/2 -translate-y-1/2 -left-5 hidden lg:block z-20">
               <div
-                className="hero-fade-in"
+                className="animate-fadeInUp"
                 style={{ animationDelay: "1.0s" }}
               >
                 <div className="hero-badge flex bg-card/95 backdrop-blur-md border border-border rounded-xl px-3 py-3 shadow-xl flex-col items-center gap-0.5">
@@ -340,7 +340,7 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
             {/* Badge — Resort Rating (bottom-left) */}
             <div className="absolute -bottom-3 left-6 lg:left-4 z-20">
               <div
-                className="hero-fade-in"
+                className="animate-fadeInUp"
                 style={{ animationDelay: "0.9s" }}
               >
                 <div className="hero-badge flex bg-card/95 backdrop-blur-md border border-border rounded-xl px-3 py-2 shadow-xl items-center gap-2.5">
@@ -356,9 +356,9 @@ const HeroSection = ({ maintenanceActive, onCheckAvailability }: HeroSectionProp
             </div>
 
             {/* Badge — Location (top-right) */}
-            <div className="absolute -top-3 -right-3 z-20">
+            <div className="absolute -top-3 right-0 z-20">
               <div
-                className="hero-fade-in"
+                className="animate-fadeInUp"
                 style={{ animationDelay: "0.9s" }}
               >
                 <div className="hero-badge flex bg-primary rounded-xl px-3 py-2 shadow-xl items-center gap-1.5">

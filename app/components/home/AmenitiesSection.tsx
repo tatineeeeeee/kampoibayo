@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
-import { useInView } from "framer-motion";
+import { useInView } from "../../hooks/useInView";
 import {
   ChevronDown,
   ArrowRight,

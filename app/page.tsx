@@ -6,7 +6,6 @@ import { isMaintenanceMode } from "./utils/maintenanceMode";
 import { supabase } from "./supabaseClient";
 import { useAuth } from "./contexts/AuthContext";
 import DynamicGallery from "./components/DynamicGallery";
-import Chatbot from "./components/Chatbot";
 import BookingAuthModal from "./components/BookingAuthModal";
 import Navbar from "./components/home/Navbar";
 import HeroSection from "./components/home/HeroSection";
@@ -169,8 +168,6 @@ function Home() {
           onClose={() => setShowAvailabilityModal(false)}
         />
       </div>
-
-      <Chatbot />
 
       <BookingAuthModal
         isOpen={showBookingAuthModal}

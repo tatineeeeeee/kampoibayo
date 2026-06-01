@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useInView } from "../../hooks/useInView";
 import {
   Leaf,
   Mountain,
@@ -59,10 +59,10 @@ const AboutSection = ({
   const imageRef = useRef(null);
   const textRef = useRef(null);
   const cardsRef = useRef(null);
-  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
-  const imageInView = useInView(imageRef, { once: true, margin: "-80px" });
-  const textInView = useInView(textRef, { once: true, margin: "-80px" });
-  const cardsInView = useInView(cardsRef, { once: true, margin: "-60px" });
+  const headerInView = useInView(headerRef, { once: true });
+  const imageInView = useInView(imageRef, { once: true });
+  const textInView = useInView(textRef, { once: true });
+  const cardsInView = useInView(cardsRef, { once: true });
 
   return (
     <section
@@ -152,7 +152,7 @@ const AboutSection = ({
               {featureCards.map((card, i) => (
                 <div
                   key={card.title}
-                  className={`flex flex-col xs:flex-row items-center xs:items-start gap-2 xs:gap-3 p-2 xs:p-3 bg-muted/50 rounded-lg border border-border ${card.border} transition-all duration-500 ease-out text-center xs:text-left ${cardsInView ? "opacity-100" : "opacity-0 translate-y-5"}`}
+                  className={`flex flex-col xs:flex-row items-center xs:items-start gap-2 xs:gap-3 p-2 xs:p-3 bg-muted/50 rounded-lg border border-border ${card.border} transition-all duration-700 ease-out text-center xs:text-left ${cardsInView ? "opacity-100" : "opacity-0 translate-y-5"}`}
                   style={{ transitionDelay: cardsInView ? `${300 + i * 80}ms` : "0ms" }}
                 >
                   <div className={`w-8 h-8 xs:w-10 xs:h-10 ${card.bg} rounded-lg flex items-center justify-center flex-shrink-0`}>

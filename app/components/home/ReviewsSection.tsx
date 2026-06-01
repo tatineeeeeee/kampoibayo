@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRef } from "react";
-import { useInView } from "framer-motion";
+import { useInView } from "../../hooks/useInView";
 import {
   MessageCircleHeart,
   ArrowRight,
