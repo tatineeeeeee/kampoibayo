@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendSMS } from '@/app/utils/smsService';
 import { validateInternalOrAdmin, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
+import { RESORT_PHONE_LOCAL } from '@/lib/constants/business';
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +31,7 @@ export async function POST(request: NextRequest) {
     const refundLine = bookingDetails.refund_status === 'processing' && bookingDetails.refund_amount
       ? ` Refund of P${Number(bookingDetails.refund_amount).toLocaleString()} will be processed within 5-10 business days.`
       : '';
-    const baseMessage = `KAMPO IBAYO RESORT: Dear ${bookingDetails.name || 'Guest'}, booking ${bookingDetails.booking_number || 'N/A'} has been cancelled.${refundLine} Call: 09662815123`;
+    const baseMessage = `KAMPO IBAYO RESORT: Dear ${bookingDetails.name || 'Guest'}, booking ${bookingDetails.booking_number || 'N/A'} has been cancelled.${refundLine} Call: ${RESORT_PHONE_LOCAL}`;
     const message = baseMessage.substring(0, 160);
 
     // Send SMS using existing service
