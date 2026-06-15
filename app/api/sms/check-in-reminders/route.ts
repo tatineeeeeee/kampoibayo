@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { sendSMS, createBookingReminderSMS, createReminder12HourSMS, createReminder3HourSMS, createCheckInDaySMS } from '@/app/utils/smsService';
 import { supabaseAdmin } from '@/app/utils/supabaseAdmin';
 import { validateCronOrAdmin, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
+import { CHECK_IN_TIME } from '@/lib/constants/booking';
 
 // Reminder types: 24h, 12h, 3h, checkin (exact 3PM)
 type ReminderType = '24h' | '12h' | '3h' | 'checkin';
@@ -22,7 +23,6 @@ export async function POST(request: NextRequest) {
     const localNow = new Date(now.getTime() + (philippineOffset + now.getTimezoneOffset()) * 60000);
 
     let targetDateString: string;
-    let checkInHour = 15; // 3PM check-in time
 
     if (reminderType === '24h') {
       // 24 hours before: check-in is tomorrow
@@ -88,11 +88,11 @@ export async function POST(request: NextRequest) {
         if (reminderType === '24h') {
           reminderMessage = createBookingReminderSMS(booking.guest_name, checkInDate);
         } else if (reminderType === '12h') {
-          reminderMessage = createReminder12HourSMS(booking.guest_name, '3PM');
+          reminderMessage = createReminder12HourSMS(booking.guest_name, CHECK_IN_TIME);
         } else if (reminderType === '3h') {
           reminderMessage = createReminder3HourSMS(booking.guest_name);
         } else if (reminderType === 'checkin') {
-          reminderMessage = createCheckInDaySMS(booking.guest_name, '3PM');
+          reminderMessage = createCheckInDaySMS(booking.guest_name, CHECK_IN_TIME);
         } else {
           reminderMessage = createBookingReminderSMS(booking.guest_name, checkInDate);
         }
