@@ -109,6 +109,7 @@ export default function BookingFormFields({
         <div className="flex items-center justify-between rounded-lg border border-border px-4 py-3 bg-card/50">
           <button
             type="button"
+            aria-label="Decrease number of guests"
             onClick={() => {
               const current = parseInt(formData.guests) || 1;
               if (current > 1) {
@@ -137,6 +138,7 @@ export default function BookingFormFields({
           </div>
           <button
             type="button"
+            aria-label="Increase number of guests"
             onClick={() => {
               const current = parseInt(formData.guests) || 0;
               if (current < MAX_GUESTS) {
