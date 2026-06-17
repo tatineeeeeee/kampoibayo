@@ -3,6 +3,7 @@ import { sendEmail, createUserCancellationConfirmationEmail, createUserCancellat
 import { supabaseAdmin as supabase } from '@/app/utils/supabaseAdmin';
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
+import { BOOKING_STATUS } from '@/lib/constants/booking';
 
 
 export async function POST(request: NextRequest) {
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if booking can be cancelled (only pending or confirmed bookings)
-    if (booking.status === 'cancelled') {
+    if (booking.status === BOOKING_STATUS.CANCELLED) {
       return NextResponse.json(
         { success: false, error: 'Booking is already cancelled' },
         { status: 400 }
