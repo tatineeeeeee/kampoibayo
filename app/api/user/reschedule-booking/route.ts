@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
 import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND, EXTRA_GUEST_FEE, INCLUDED_GUESTS, PHILIPPINE_HOLIDAYS, PEAK_SEASON_RANGES } from '@/app/lib/constants/pricing';
+import { BOOKING_STATUS } from '@/app/lib/constants/booking';
 
 // Initialize Supabase admin client for database operations
 const supabaseAdmin = createClient(
@@ -67,7 +68,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if booking can be rescheduled (same rules as cancellation)
-    if (booking.status === 'cancelled') {
+    if (booking.status === BOOKING_STATUS.CANCELLED) {
       return NextResponse.json(
         { success: false, error: "Cannot reschedule a cancelled booking" },
         { status: 400 }
@@ -84,7 +85,7 @@ export async function POST(request: NextRequest) {
     }
 
     // For confirmed bookings, check if it's at least 3 days before check-in
-    if (booking.status === 'confirmed') {
+    if (booking.status === BOOKING_STATUS.CONFIRMED) {
       const originalCheckIn = new Date(booking.check_in_date);
       const now = new Date();
       const daysUntilCheckIn = (originalCheckIn.getTime() - now.getTime()) / (1000 * 3600 * 24);
