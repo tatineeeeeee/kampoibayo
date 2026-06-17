@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth'
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit'
+import { BOOKING_STATUS } from '@/lib/constants/booking'
 
 export async function DELETE(request: NextRequest) {
   try {
@@ -93,9 +94,8 @@ export async function DELETE(request: NextRequest) {
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
 
     const activeBookings = bookings?.filter(b =>
-      b.status === 'pending' ||
-      b.status === 'confirmed' ||
-      b.status === 'paid'
+      b.status === BOOKING_STATUS.PENDING ||
+      b.status === BOOKING_STATUS.CONFIRMED
     ) || []
 
     const upcomingBookings = bookings?.filter(b => {
