@@ -3,6 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 import { ReactPdfReceiptService } from '../../../utils/reactPdfReceiptService';
 import nodemailer from 'nodemailer';
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
+import { RESORT_NAME, RESORT_ADDRESS, RESORT_PHONE, RESORT_EMAIL } from '@/lib/constants/business';
 
 export async function POST(request: NextRequest) {
   try {
@@ -103,10 +104,10 @@ export async function POST(request: NextRequest) {
       receiptType: 'payment' as const,
       generatedBy: 'system',
       companyDetails: {
-        name: 'Kampo Ibayo Resort',
-        address: 'Brgy. Tapia, General Trias, Cavite',
-        phone: '+63 966 281 5123',
-        email: 'kampoibayo@gmail.com'
+        name: RESORT_NAME,
+        address: RESORT_ADDRESS,
+        phone: RESORT_PHONE,
+        email: RESORT_EMAIL
       }
     };
 
