@@ -6,6 +6,7 @@ import {
   createBookingReminderSMS
 } from '@/app/utils/smsService';
 import { validateAdminAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
+import { RESORT_NAME } from '@/lib/constants/business';
 
 export async function POST(request: NextRequest) {
   try {
@@ -44,7 +45,7 @@ export async function POST(request: NextRequest) {
           smsMessage = createBookingReminderSMS('Test User', 'December 25, 2024');
           break;
         default:
-          smsMessage = 'KAMPO IBAYO RESORT: Test message from your booking system. SMS integration working perfectly!';
+          smsMessage = `${RESORT_NAME}: Test message from your booking system. SMS integration working perfectly!`;
       }
     }
 
