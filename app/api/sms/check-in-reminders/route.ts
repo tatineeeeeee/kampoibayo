@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { sendSMS, createBookingReminderSMS, createReminder12HourSMS, createReminder3HourSMS, createCheckInDaySMS } from '@/app/utils/smsService';
 import { supabaseAdmin } from '@/app/utils/supabaseAdmin';
 import { validateCronOrAdmin, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
-import { CHECK_IN_TIME } from '@/lib/constants/booking';
+import { CHECK_IN_TIME } from '@/app/lib/constants/booking';
 
 // Reminder types: 24h, 12h, 3h, checkin (exact 3PM)
 type ReminderType = '24h' | '12h' | '3h' | 'checkin';

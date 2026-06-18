@@ -3,8 +3,8 @@ import { createClient } from '@supabase/supabase-js';
 import { ReactPdfReceiptService } from '../../../utils/reactPdfReceiptService';
 import nodemailer from 'nodemailer';
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
-import { RESORT_NAME, RESORT_ADDRESS, RESORT_PHONE, RESORT_EMAIL } from '@/lib/constants/business';
-import { CHECK_IN_TIME, CHECK_OUT_TIME } from '@/lib/constants/booking';
+import { RESORT_NAME, RESORT_ADDRESS, RESORT_PHONE, RESORT_EMAIL } from '@/app/lib/constants/business';
+import { CHECK_IN_TIME, CHECK_OUT_TIME } from '@/app/lib/constants/booking';
 
 export async function POST(request: NextRequest) {
   try {

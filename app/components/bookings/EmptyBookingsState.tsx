@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Calendar } from "lucide-react";
-import { RESORT_PHONE, RESORT_PHONE_RAW } from "@/lib/constants/business";
+import { RESORT_PHONE, RESORT_PHONE_RAW } from "@/app/lib/constants/business";
 
 interface EmptyBookingsStateProps {
   maintenanceActive: boolean;

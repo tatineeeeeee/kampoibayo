@@ -6,7 +6,7 @@ import { Tables } from "@/database.types";
 import { useToast } from "@/app/components/Toast";
 import { Clock, Users, FileText } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { CHECK_IN_TIME, CHECK_OUT_TIME } from "@/lib/constants/booking";
+import { CHECK_IN_TIME, CHECK_OUT_TIME } from "@/app/lib/constants/booking";
 
 type BookingRow = Tables<"bookings">;
 

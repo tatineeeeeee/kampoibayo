@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sendSMS } from '@/app/utils/smsService';
 import { validateInternalOrAdmin, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
-import { RESORT_PHONE_LOCAL } from '@/lib/constants/business';
+import { RESORT_PHONE_LOCAL } from '@/app/lib/constants/business';
 
 export async function POST(request: NextRequest) {
   try {

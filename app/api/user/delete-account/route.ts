@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { NextRequest, NextResponse } from 'next/server'
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth'
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit'
-import { BOOKING_STATUS } from '@/lib/constants/booking'
+import { BOOKING_STATUS } from '@/app/lib/constants/booking'
 
 export async function DELETE(request: NextRequest) {
   try {

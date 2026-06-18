@@ -3,7 +3,7 @@ import { sendEmail, createUserCancellationConfirmationEmail, createUserCancellat
 import { supabaseAdmin as supabase } from '@/app/utils/supabaseAdmin';
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
-import { BOOKING_STATUS } from '@/lib/constants/booking';
+import { BOOKING_STATUS } from '@/app/lib/constants/booking';
 
 
 export async function POST(request: NextRequest) {

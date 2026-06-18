@@ -6,7 +6,7 @@ import {
   createBookingReminderSMS
 } from '@/app/utils/smsService';
 import { validateAdminAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
-import { RESORT_NAME } from '@/lib/constants/business';
+import { RESORT_NAME } from '@/app/lib/constants/business';
 
 export async function POST(request: NextRequest) {
   try {
