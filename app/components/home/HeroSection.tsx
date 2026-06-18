@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { CalendarDays, ArrowRight, Users, Waves, MapPin, PawPrint, Star, Wifi, Car, Shield, Clock } from "lucide-react";
 
 import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND } from "../../lib/constants/pricing";
+import { CHECK_IN_TIME } from "../../lib/constants/booking";
 import { supabase } from "../../supabaseClient";
 
 interface HeroSectionProps {
@@ -16,7 +17,7 @@ interface HeroSectionProps {
 const statsBar = [
   { icon: <Users className="w-4 h-4" />, label: "Max Guests", value: "25 Pax" },
   { icon: <Waves className="w-4 h-4" />, label: "Swimming Pool", value: "Included" },
-  { icon: <MapPin className="w-4 h-4" />, label: "Check-in", value: "3:00 PM" },
+  { icon: <MapPin className="w-4 h-4" />, label: "Check-in", value: CHECK_IN_TIME },
   { icon: <PawPrint className="w-4 h-4" />, label: "Pet Policy", value: "Friendly" },
 ];
 
