@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "../supabaseClient"; // adjust path if needed
 import { useToastHelpers } from "../components/Toast";
@@ -10,7 +10,7 @@ import { ForgotPasswordModal, PasswordResetForm } from "../components/auth/Forgo
 import AuthTestimonials from "../components/auth/AuthTestimonials";
 import { cn } from "@/lib/utils";
 
-export default function AuthPage() {
+function AuthPageContent() {
   const searchParams = useSearchParams();
   const [isLogin, setIsLogin] = useState(searchParams.get('tab') !== 'signup');
   const [isLoading, setIsLoading] = useState(true);
@@ -729,5 +729,19 @@ export default function AuthPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AuthPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-background">
+          <div className="text-foreground text-xl">Loading...</div>
+        </div>
+      }
+    >
+      <AuthPageContent />
+    </Suspense>
   );
 }
