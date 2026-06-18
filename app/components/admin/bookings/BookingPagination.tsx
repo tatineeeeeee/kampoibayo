@@ -62,6 +62,7 @@ export function BookingPagination({
           disabled={currentPage === 1}
           className="p-2 rounded-md border border-border bg-card text-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           title="First page"
+          aria-label="First page"
         >
           <ChevronsLeft className="w-4 h-4" />
         </button>
@@ -70,6 +71,7 @@ export function BookingPagination({
           disabled={currentPage === 1}
           className="p-2 rounded-md border border-border bg-card text-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           title="Previous page"
+          aria-label="Previous page"
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -111,6 +113,7 @@ export function BookingPagination({
           disabled={currentPage === totalPages}
           className="p-2 rounded-md border border-border bg-card text-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           title="Next page"
+          aria-label="Next page"
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -119,6 +122,7 @@ export function BookingPagination({
           disabled={currentPage === totalPages}
           className="p-2 rounded-md border border-border bg-card text-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           title="Last page"
+          aria-label="Last page"
         >
           <ChevronsRight className="w-4 h-4" />
         </button>
