@@ -144,11 +144,13 @@ app/
 
 **Never hardcode** prices, times, business info, or limits. Always import from `app/lib/constants/`:
 
+The `@/*` path alias maps to the **project root** (`@/* → ./*`), so constants in `app/lib/constants/` must be imported via `@/app/lib/constants/...` — **not** `@/lib/constants/...`, which resolves to the root `lib/` folder (only `utils.ts` lives there) and breaks the build. Relative imports (e.g. `../../lib/constants/pricing`) also work.
+
 ```ts
-import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND, EXTRA_GUEST_FEE, INCLUDED_GUESTS, MAX_GUESTS } from "@/lib/constants/pricing";
-import { CHECK_IN_TIME, CHECK_OUT_TIME, BOOKING_STATUS, ITEMS_PER_PAGE } from "@/lib/constants/booking";
-import { RESORT_NAME, RESORT_PHONE, RESORT_ADDRESS } from "@/lib/constants/business";
-import { TOAST_DURATION_MS, SESSION_TIMEOUT_MS } from "@/lib/constants/timeouts";
+import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND, EXTRA_GUEST_FEE, INCLUDED_GUESTS, MAX_GUESTS } from "@/app/lib/constants/pricing";
+import { CHECK_IN_TIME, CHECK_OUT_TIME, BOOKING_STATUS, ITEMS_PER_PAGE } from "@/app/lib/constants/booking";
+import { RESORT_NAME, RESORT_PHONE, RESORT_ADDRESS } from "@/app/lib/constants/business";
+import { TOAST_DURATION_MS, SESSION_TIMEOUT_MS } from "@/app/lib/constants/timeouts";
 ```
 
 ---
@@ -192,7 +194,7 @@ Tailwind v4 `@theme inline` maps CSS vars to utility classes:
 
 Add to any page header or navbar:
 ```tsx
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/app/components/ThemeToggle";
 <ThemeToggle />
 ```
 
@@ -217,7 +219,7 @@ cn("base-class", isActive && "active-class", variant === "primary" && "bg-primar
 
 ## Database
 
-Auto-generated types at `app/database.types.ts`. Import with:
+Auto-generated types at `database.types.ts` (project root). Import with:
 ```ts
 import type { Tables, TablesInsert, TablesUpdate } from "@/database.types";
 type BookingRow = Tables<"bookings">;
