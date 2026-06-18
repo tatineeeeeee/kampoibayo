@@ -6,6 +6,7 @@ import { Tables } from "@/database.types";
 import { useToast } from "@/app/components/Toast";
 import { Clock, Users, FileText } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { CHECK_IN_TIME, CHECK_OUT_TIME } from "@/lib/constants/booking";
 
 type BookingRow = Tables<"bookings">;
 
@@ -290,7 +291,7 @@ export function useReportData({
 
               if (booking.check_in_date === today) {
                 actionDate = today;
-                actionTime = "3:00 PM";
+                actionTime = CHECK_IN_TIME;
                 if (isConfirmed) {
                   action = "\u{1F3E8} GUEST ARRIVAL - Welcome & Check-in";
                   priority = "HIGH";
@@ -303,7 +304,7 @@ export function useReportData({
                 }
               } else if (booking.check_out_date === today) {
                 actionDate = today;
-                actionTime = "1:00 PM";
+                actionTime = CHECK_OUT_TIME;
                 if (isConfirmed) {
                   action = "\u{1F44B} GUEST DEPARTURE - Check-out & Farewell";
                   priority = "HIGH";
@@ -313,7 +314,7 @@ export function useReportData({
                 }
               } else if (booking.check_in_date === tomorrow) {
                 actionDate = tomorrow;
-                actionTime = "3:00 PM";
+                actionTime = CHECK_IN_TIME;
                 if (isConfirmed) {
                   action = "\u{1F4CB} CONFIRMED ARRIVAL Tomorrow - Prepare Resort";
                   priority = "MEDIUM";
@@ -353,7 +354,7 @@ export function useReportData({
                 }
               } else if (booking.check_out_date === yesterday && isConfirmed) {
                 actionDate = yesterday;
-                actionTime = "1:00 PM";
+                actionTime = CHECK_OUT_TIME;
                 action = "\u2705 RECENT DEPARTURE - Follow-up & Review";
                 priority = "LOW";
               } else {
