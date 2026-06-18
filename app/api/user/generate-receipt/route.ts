@@ -4,6 +4,7 @@ import { ReactPdfReceiptService } from '../../../utils/reactPdfReceiptService';
 import nodemailer from 'nodemailer';
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { RESORT_NAME, RESORT_ADDRESS, RESORT_PHONE, RESORT_EMAIL } from '@/lib/constants/business';
+import { CHECK_IN_TIME, CHECK_OUT_TIME } from '@/lib/constants/booking';
 
 export async function POST(request: NextRequest) {
   try {
@@ -210,7 +211,7 @@ export async function POST(request: NextRequest) {
             <h4 style="color: #92400e; margin: 0 0 10px 0;">Important Reminders:</h4>
             <ul style="color: #92400e; margin: 0; padding-left: 20px;">
               <li>Please bring a printed copy or screenshot of this receipt during check-in</li>
-              <li>Check-in time is 3:00 PM, Check-out time is 1:00 PM</li>
+              <li>Check-in time is ${CHECK_IN_TIME}, Check-out time is ${CHECK_OUT_TIME}</li>
               ${booking.payment_type !== 'full' ? `<li>Remaining balance of ₱${(booking.total_amount - paymentAmount).toLocaleString()} is payable upon arrival</li>` : ''}
               <li>For any concerns, contact us 24 hours before your check-in date</li>
             </ul>
