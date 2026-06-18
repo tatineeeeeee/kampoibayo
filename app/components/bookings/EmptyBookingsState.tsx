@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Calendar } from "lucide-react";
+import { RESORT_PHONE, RESORT_PHONE_RAW } from "@/lib/constants/business";
 
 interface EmptyBookingsStateProps {
   maintenanceActive: boolean;
@@ -35,8 +36,8 @@ export function EmptyBookingsState({ maintenanceActive }: EmptyBookingsStateProp
         {maintenanceActive && (
           <p className="text-muted-foreground text-xs sm:text-sm text-center">
             Resort is temporarily closed for maintenance. Call{" "}
-            <a href="tel:+639662815123" className="text-warning hover:text-warning">
-              +63 966 281 5123
+            <a href={`tel:${RESORT_PHONE_RAW}`} className="text-warning hover:text-warning">
+              {RESORT_PHONE}
             </a>{" "}
             for assistance.
           </p>
