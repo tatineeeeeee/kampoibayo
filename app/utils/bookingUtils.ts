@@ -313,8 +313,6 @@ export async function manuallyExpireBookings() {
   const expiredBookings = await checkAndExpirePendingBookings();
 
   if (expiredBookings.length > 0) {
-    expiredBookings.forEach(booking => {
-    });
     return `Successfully expired ${expiredBookings.length} booking(s)`;
   } else {
     return 'No bookings found that need to be expired';
@@ -336,9 +334,6 @@ export async function checkBookingTableColumns() {
       return;
     }
 
-    if (data && data.length > 0) {
-    } else {
-    }
   } catch (error) {
     console.error('Error in checkBookingTableColumns:', error);
   }
