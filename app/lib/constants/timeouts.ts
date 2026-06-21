@@ -29,3 +29,6 @@ export const MAX_AUTH_RETRIES = 3;
 
 /** SMS API timeout */
 export const SMS_TIMEOUT_MS = 30000;
+
+/** Admin notification bell polling interval */
+export const ADMIN_NOTIFICATION_POLL_MS = 30000;

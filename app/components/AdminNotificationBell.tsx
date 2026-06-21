@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { supabase } from "../supabaseClient";
 import { useRouter } from "next/navigation";
+import { ADMIN_NOTIFICATION_POLL_MS } from "@/app/lib/constants/timeouts";
 
 interface Notification {
   id: string;
@@ -291,7 +292,7 @@ export default function AdminNotificationBell() {
     fetchNotifications(); // Initial load with loading spinner
 
     // Refresh every 30 seconds SILENTLY (isSilent = true)
-    const interval = setInterval(() => fetchNotifications(true), 30000);
+    const interval = setInterval(() => fetchNotifications(true), ADMIN_NOTIFICATION_POLL_MS);
     return () => clearInterval(interval);
   }, []);
 
