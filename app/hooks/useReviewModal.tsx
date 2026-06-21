@@ -9,7 +9,14 @@ interface UseReviewModalProps {
   trigger?: 'post-booking' | 'prompt' | 'manual';
 }
 
-export const useReviewModal = () => {
+interface UseReviewModalReturn {
+  isOpen: boolean;
+  modalProps: UseReviewModalProps;
+  openModal: (props?: UseReviewModalProps) => void;
+  closeModal: () => void;
+}
+
+export const useReviewModal = (): UseReviewModalReturn => {
   const [isOpen, setIsOpen] = useState(false);
   const [modalProps, setModalProps] = useState<UseReviewModalProps>({});
 
