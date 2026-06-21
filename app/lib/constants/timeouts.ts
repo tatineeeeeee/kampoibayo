@@ -32,3 +32,9 @@ export const SMS_TIMEOUT_MS = 30000;
 
 /** Admin notification bell polling interval */
 export const ADMIN_NOTIFICATION_POLL_MS = 30000;
+
+/** Delay before redirecting after successful login */
+export const LOGIN_REDIRECT_DELAY_MS = 1500;
+
+/** Delay before triggering onSignupSuccess callback */
+export const SIGNUP_SUCCESS_DELAY_MS = 2000;

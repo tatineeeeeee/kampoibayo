@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { SIGNUP_SUCCESS_DELAY_MS } from "@/app/lib/constants/timeouts";
 import { supabase } from "../../supabaseClient";
 import {
   FaLock,
@@ -245,7 +246,7 @@ export default function SignupForm({ formKey, onSignupSuccess }: SignupFormProps
         setTermsError(false);
 
         // Notify parent to switch to login
-        setTimeout(() => onSignupSuccess(), 2000);
+        setTimeout(() => onSignupSuccess(), SIGNUP_SUCCESS_DELAY_MS);
       }
     } catch (error: unknown) {
       console.error("Unexpected registration error:", error);

@@ -5,6 +5,7 @@ import { FaLock, FaEnvelope } from "react-icons/fa";
 import { Eye, EyeOff } from "lucide-react";
 import { useToastHelpers } from "../Toast";
 import { useRouter } from "next/navigation";
+import { LOGIN_REDIRECT_DELAY_MS } from "@/app/lib/constants/timeouts";
 
 interface LoginFormProps {
   formKey: number;
@@ -83,16 +84,16 @@ export default function LoginForm({ formKey, onForgotPassword }: LoginFormProps)
 
           // For other errors, redirect to homepage as fallback
           loginSuccess("user");
-          setTimeout(() => router.push("/"), 1500);
+          setTimeout(() => router.push("/"), LOGIN_REDIRECT_DELAY_MS);
         } else {
           const userRole = userData?.role || "user";
 
           if (userRole === "admin" || userRole === "staff") {
             loginSuccess(userRole);
-            setTimeout(() => router.push("/admin"), 1500);
+            setTimeout(() => router.push("/admin"), LOGIN_REDIRECT_DELAY_MS);
           } else {
             loginSuccess("user");
-            setTimeout(() => router.push("/"), 1500);
+            setTimeout(() => router.push("/"), LOGIN_REDIRECT_DELAY_MS);
           }
         }
       }
