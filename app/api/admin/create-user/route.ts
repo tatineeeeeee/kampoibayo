@@ -241,7 +241,6 @@ export async function POST(request: NextRequest) {
       // Rollback: delete the auth user to prevent orphaned auth records
       try {
         await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
-        console.log('Rolled back auth user after DB insert failure');
       } catch (rollbackError) {
         console.error('Failed to rollback auth user:', rollbackError);
       }
@@ -253,8 +252,6 @@ export async function POST(request: NextRequest) {
     }
 
     // 12. Success
-    console.log(`🔐 Admin ${auth.user.email} created ${role} user: ${trimmedEmail}`);
-
     return NextResponse.json({
       success: true,
       tempPassword,
