@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { MODAL_ANIMATION_CLOSE_MS } from '@/app/lib/constants/timeouts';
 
 interface UseReviewModalProps {
   bookingId?: number;
@@ -27,10 +28,9 @@ export const useReviewModal = (): UseReviewModalReturn => {
 
   const closeModal = useCallback(() => {
     setIsOpen(false);
-    // Clear props after animation
     setTimeout(() => {
       setModalProps({});
-    }, 300);
+    }, MODAL_ANIMATION_CLOSE_MS);
   }, []);
 
   return {

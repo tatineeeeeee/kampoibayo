@@ -38,3 +38,6 @@ export const LOGIN_REDIRECT_DELAY_MS = 1500;
 
 /** Delay before triggering onSignupSuccess callback */
 export const SIGNUP_SUCCESS_DELAY_MS = 2000;
+
+/** Delay to clear modal props after close animation completes */
+export const MODAL_ANIMATION_CLOSE_MS = 300;
