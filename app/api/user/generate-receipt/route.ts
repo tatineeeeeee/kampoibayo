@@ -124,12 +124,6 @@ export async function POST(request: NextRequest) {
     // Generate PDF buffer with React-PDF (Vercel optimized)
     const pdfBuffer = await ReactPdfReceiptService.generateReceiptBlob(receiptData);
 
-
-    // Check if we got the fallback PDF (jsPDF is typically smaller)
-    if (pdfBuffer.length < 50000) {
-    } else {
-    }
-
     // Setup email transporter
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
