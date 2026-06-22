@@ -10,6 +10,7 @@ import {
 } from "react-icons/fa";
 import { cn } from "../../lib/utils";
 import type { BookingBasic } from "../../lib/types/booking";
+import { MAX_CONCURRENT_BOOKINGS_PER_DAY } from "../../lib/constants/booking";
 
 interface BookingCalendarProps {
   formData: {
@@ -163,7 +164,7 @@ export default function BookingCalendar({
 
     const unavailable: Date[] = [];
     for (const [dateStr, count] of checkInCounts) {
-      if (count >= 2) unavailable.push(new Date(dateStr));
+      if (count >= MAX_CONCURRENT_BOOKINGS_PER_DAY) unavailable.push(new Date(dateStr));
     }
     return unavailable;
   };

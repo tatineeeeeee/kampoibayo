@@ -36,3 +36,6 @@ export const BOOKING_EXPIRY_DAYS = 7;
 
 /** Default items per page for paginated tables */
 export const ITEMS_PER_PAGE = 10;
+
+/** Maximum number of confirmed bookings that can share the same check-in date */
+export const MAX_CONCURRENT_BOOKINGS_PER_DAY = 2;
