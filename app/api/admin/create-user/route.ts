@@ -28,7 +28,9 @@ import crypto from 'crypto';
 // Helpers
 // ---------------------------------------------------------------------------
 
-function generateTempPassword(length = 16): string {
+const TEMP_PASSWORD_LENGTH = 16;
+
+function generateTempPassword(length = TEMP_PASSWORD_LENGTH): string {
   const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   const lower = 'abcdefghijklmnopqrstuvwxyz';
   const digits = '0123456789';
