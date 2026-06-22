@@ -122,12 +122,6 @@ export async function POST(request: NextRequest) {
     // Generate PDF with React-PDF (Vercel optimized)
     const pdfBuffer = await ReactPdfReceiptService.generatePDFReceipt(receiptData);
 
-
-    // Check if we got the fallback PDF (jsPDF is typically smaller)
-    if (pdfBuffer.length < 50000) {
-    } else {
-    }
-
     // Return PDF as downloadable response  
     const uint8Array = new Uint8Array(pdfBuffer);
     const response = new NextResponse(uint8Array);
