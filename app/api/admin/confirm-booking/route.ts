@@ -27,6 +27,7 @@ import { sendSMS, createBookingApprovalSMS } from '@/app/utils/smsService';
 import { supabaseAdmin } from '@/app/utils/supabaseAdmin';
 import { validateAdminAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
+import { ADMIN_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '@/app/lib/constants/rateLimits';
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,7 +35,7 @@ export async function POST(request: NextRequest) {
     if (!auth.success) return authErrorResponse(auth as AuthFailure);
 
     const ip = getClientIp(request);
-    if (!checkRateLimit(`confirm-booking:${ip}`, 10, 60_000)) {
+    if (!checkRateLimit(`confirm-booking:${ip}`, ADMIN_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
       return NextResponse.json({ success: false, error: 'Too many requests. Please try again in a minute.' }, { status: 429 });
     }
 
