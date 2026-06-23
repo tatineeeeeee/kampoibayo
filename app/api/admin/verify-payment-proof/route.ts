@@ -171,7 +171,6 @@ export async function POST(request: NextRequest) {
 
         if (!approveEmailResponse.ok) {
           console.warn('⚠️ Server: Failed to send approval email, but continuing...');
-        } else {
         }
 
         // Send SMS notification for payment approval (if phone number available)
@@ -260,7 +259,6 @@ export async function POST(request: NextRequest) {
 
         if (!rejectEmailResponse.ok) {
           console.warn('⚠️ Server: Failed to send rejection email, but continuing...');
-        } else {
         }
       }
 
