@@ -1,5 +1,6 @@
 import { supabase } from "../../supabaseClient";
 import { TablesInsert, TablesUpdate } from "@/database.types";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "../constants/booking";
 
 /**
  * Booking Service - Wraps all client-side Supabase queries for the bookings table.
@@ -29,7 +30,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("check_in_date, check_out_date, status")
-      .in("status", ["confirmed", "pending"]);
+      .in("status", [BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.PENDING]);
   },
 
   /** Fetch booked dates with a limit (for book page) */
@@ -37,7 +38,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id, check_in_date, check_out_date, status")
-      .in("status", ["confirmed", "pending"])
+      .in("status", [BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.PENDING])
       .limit(limit);
   },
 
@@ -74,7 +75,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id, guest_name, guest_email, created_at, status")
-      .eq("status", "pending");
+      .eq("status", BOOKING_STATUS.PENDING);
   },
 
   /** Fetch cancelled bookings (for admin notifications) */
@@ -82,7 +83,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id, guest_name, check_in_date, updated_at")
-      .eq("status", "cancelled");
+      .eq("status", BOOKING_STATUS.CANCELLED);
   },
 
   /** Fetch pending bookings for notification count */
@@ -90,7 +91,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id")
-      .eq("status", "pending");
+      .eq("status", BOOKING_STATUS.PENDING);
   },
 
   /** Fetch cancelled bookings for notification count */
@@ -98,7 +99,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id")
-      .eq("status", "cancelled");
+      .eq("status", BOOKING_STATUS.CANCELLED);
   },
 
   /** Fetch bookings with payment review status */
@@ -106,7 +107,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id, guest_name, updated_at")
-      .eq("payment_status", "payment_review");
+      .eq("payment_status", PAYMENT_STATUS.PAYMENT_REVIEW);
   },
 
   /** Fetch bookings with failed payment */
@@ -124,7 +125,7 @@ export const bookingService = {
       .select(
         "id, guest_name, total_amount, payment_status, payment_type, updated_at",
       )
-      .in("status", ["confirmed", "pending"]);
+      .in("status", [BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.PENDING]);
   },
 
   /** Create a new booking */
