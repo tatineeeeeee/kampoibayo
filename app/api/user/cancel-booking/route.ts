@@ -3,7 +3,7 @@ import { sendEmail, createUserCancellationConfirmationEmail, createUserCancellat
 import { supabaseAdmin as supabase } from '@/app/utils/supabaseAdmin';
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
-import { BOOKING_STATUS } from '@/app/lib/constants/booking';
+import { BOOKING_STATUS, BOOKING_NUMBER_PREFIX, BOOKING_NUMBER_PAD_LENGTH } from '@/app/lib/constants/booking';
 import { USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '@/app/lib/constants/rateLimits';
 
 
@@ -271,7 +271,7 @@ export async function POST(request: NextRequest) {
             phoneNumber: booking.guest_phone,
             bookingDetails: {
               name: booking.guest_name,
-              booking_number: `KB-${booking.id.toString().padStart(4, '0')}`,
+              booking_number: `${BOOKING_NUMBER_PREFIX}${booking.id.toString().padStart(BOOKING_NUMBER_PAD_LENGTH, '0')}`,
               check_in_date: new Date(booking.check_in_date).toLocaleDateString(),
               check_out_date: new Date(booking.check_out_date).toLocaleDateString(),
               number_of_guests: booking.number_of_guests,
