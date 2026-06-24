@@ -4,6 +4,7 @@ import { validateAuth, authErrorResponse, AuthFailure } from "@/app/utils/server
 import { checkRateLimit, getClientIp } from "@/app/utils/rateLimit";
 import { calculateBookingPrice } from "@/app/utils/priceCalculation";
 import { escapeHtml } from "@/app/utils/escapeHtml";
+import { MAX_GUEST_NAME_LENGTH, MAX_EMAIL_LENGTH, MAX_SPECIAL_REQUESTS_LENGTH } from "@/app/lib/constants/validation";
 
 export async function POST(request: NextRequest) {
   try {
@@ -62,10 +63,10 @@ export async function POST(request: NextRequest) {
     const paymentAmount = payment_type === "half" ? Math.round(totalAmount * 0.5) : totalAmount;
 
     // Sanitize text fields
-    const sanitizedName = guest_name.trim().slice(0, 100);
-    const sanitizedEmail = guest_email.trim().toLowerCase().slice(0, 255);
+    const sanitizedName = guest_name.trim().slice(0, MAX_GUEST_NAME_LENGTH);
+    const sanitizedEmail = guest_email.trim().toLowerCase().slice(0, MAX_EMAIL_LENGTH);
     const sanitizedPhone = guest_phone?.trim() || null;
-    const sanitizedRequests = special_requests?.trim().slice(0, 500) || null;
+    const sanitizedRequests = special_requests?.trim().slice(0, MAX_SPECIAL_REQUESTS_LENGTH) || null;
 
     const bookingData = {
       user_id: auth.user.authId,
