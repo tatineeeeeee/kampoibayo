@@ -4,6 +4,7 @@ import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/server
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
 import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND, EXTRA_GUEST_FEE, INCLUDED_GUESTS, PHILIPPINE_HOLIDAYS, PEAK_SEASON_RANGES } from '@/app/lib/constants/pricing';
 import { BOOKING_STATUS } from '@/app/lib/constants/booking';
+import { USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '@/app/lib/constants/rateLimits';
 
 // Initialize Supabase admin client for database operations
 const supabaseAdmin = createClient(
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest) {
     if (!auth.success) return authErrorResponse(auth as AuthFailure);
 
     const ip = getClientIp(request);
-    if (!checkRateLimit(`user-reschedule:${ip}`, 5, 60_000)) {
+    if (!checkRateLimit(`user-reschedule:${ip}`, USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
       return NextResponse.json({ success: false, error: 'Too many requests. Please try again in a minute.' }, { status: 429 });
     }
 
