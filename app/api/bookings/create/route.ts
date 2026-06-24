@@ -5,6 +5,7 @@ import { checkRateLimit, getClientIp } from "@/app/utils/rateLimit";
 import { calculateBookingPrice } from "@/app/utils/priceCalculation";
 import { escapeHtml } from "@/app/utils/escapeHtml";
 import { MAX_GUEST_NAME_LENGTH, MAX_EMAIL_LENGTH, MAX_SPECIAL_REQUESTS_LENGTH } from "@/app/lib/constants/validation";
+import { USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from "@/app/lib/constants/rateLimits";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,7 +13,7 @@ export async function POST(request: NextRequest) {
     if (!auth.success) return authErrorResponse(auth as AuthFailure);
 
     const ip = getClientIp(request);
-    if (!checkRateLimit(`create-booking:${ip}`, 5, 60_000)) {
+    if (!checkRateLimit(`create-booking:${ip}`, USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
       return NextResponse.json(
         { error: "Too many requests. Please try again in a minute." },
         { status: 429 }

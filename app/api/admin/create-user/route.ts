@@ -22,6 +22,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/app/utils/supabaseAdmin';
 import { validateAdminAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
+import { USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '@/app/lib/constants/rateLimits';
 import crypto from 'crypto';
 
 // ---------------------------------------------------------------------------
@@ -92,7 +93,7 @@ export async function POST(request: NextRequest) {
 
     // 2. Rate limiting
     const ip = getClientIp(request);
-    if (!checkRateLimit(`create-user:${ip}`, 5, 60_000)) {
+    if (!checkRateLimit(`create-user:${ip}`, USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS)) {
       return NextResponse.json(
         { success: false, error: 'Too many requests. Please try again in a minute.' },
         { status: 429 }
