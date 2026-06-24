@@ -3,6 +3,7 @@ import { sendSMS, createBookingReminderSMS, createReminder12HourSMS, createRemin
 import { supabaseAdmin } from '@/app/utils/supabaseAdmin';
 import { validateCronOrAdmin, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { CHECK_IN_TIME } from '@/app/lib/constants/booking';
+import { SMS_SEND_DELAY_MS } from '@/app/lib/constants/sms';
 
 // Reminder types: 24h, 12h, 3h, checkin (exact 3PM)
 type ReminderType = '24h' | '12h' | '3h' | 'checkin';
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
         });
 
         // Small delay between messages to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, SMS_SEND_DELAY_MS));
 
       } catch (error) {
         errorCount++;
