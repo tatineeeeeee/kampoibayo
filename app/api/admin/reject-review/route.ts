@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/app/utils/supabaseAdmin';
 import { validateAdminAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
+import { MAX_REVIEW_RESUBMISSIONS } from '@/app/lib/constants/booking';
 
 export async function POST(request: NextRequest) {
   try {
@@ -63,7 +64,7 @@ export async function POST(request: NextRequest) {
         stayDates: review.stay_dates,
         rejectionReason: rejectionReason,
         resubmissionCount: newResubmissionCount,
-        canResubmit: newResubmissionCount < 2, // Allow max 2 attempts
+        canResubmit: newResubmissionCount < MAX_REVIEW_RESUBMISSIONS,
         reviewId: review.id
       }),
     });

@@ -40,6 +40,9 @@ export const ITEMS_PER_PAGE = 10;
 /** Maximum number of confirmed bookings that can share the same check-in date */
 export const MAX_CONCURRENT_BOOKINGS_PER_DAY = 2;
 
+/** Maximum number of times a guest can resubmit a rejected review */
+export const MAX_REVIEW_RESUBMISSIONS = 2;
+
 /** Prefix used when formatting booking numbers for display */
 export const BOOKING_NUMBER_PREFIX = "KB-";
 
