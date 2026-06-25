@@ -15,6 +15,18 @@ export const INCLUDED_GUESTS = 15;
 /** Maximum number of guests allowed per booking */
 export const MAX_GUESTS = 25;
 
+/** Multiplier used to calculate a half (down) payment amount */
+export const HALF_PAYMENT_MULTIPLIER = 0.5;
+
+/** Minimum percentage of total used to detect a half payment (inclusive) */
+export const HALF_PAYMENT_MIN_PCT = 45;
+
+/** Maximum percentage of total used to detect a half payment (inclusive) */
+export const HALF_PAYMENT_MAX_PCT = 55;
+
+/** Minimum percentage of total used to detect a full payment */
+export const FULL_PAYMENT_MIN_PCT = 95;
+
 /**
  * Peak season date ranges — ALL days (including weekdays) within these ranges
  * are charged at BASE_RATE_WEEKEND regardless of day of week.

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '../../../utils/supabaseAdmin';
 import { validateAdminAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
+import { HALF_PAYMENT_MULTIPLIER, HALF_PAYMENT_MIN_PCT, HALF_PAYMENT_MAX_PCT, FULL_PAYMENT_MIN_PCT } from '@/app/lib/constants/pricing';
 
 export async function POST(request: NextRequest) {
   try {
@@ -31,9 +32,9 @@ export async function POST(request: NextRequest) {
       // If payment_amount exists and is about 50% of total_amount, it's a down payment
       if (booking.payment_amount && booking.total_amount) {
         const percentage = (booking.payment_amount / booking.total_amount) * 100;
-        if (percentage >= 45 && percentage <= 55) {
+        if (percentage >= HALF_PAYMENT_MIN_PCT && percentage <= HALF_PAYMENT_MAX_PCT) {
           paymentType = 'half';
-        } else if (percentage >= 95) {
+        } else if (percentage >= FULL_PAYMENT_MIN_PCT) {
           paymentType = 'full';
         }
       }
@@ -49,7 +50,7 @@ export async function POST(request: NextRequest) {
           .from('bookings')
           .update({ 
             payment_type: paymentType,
-            payment_amount: paymentType === 'half' ? booking.total_amount * 0.5 : booking.total_amount
+            payment_amount: paymentType === 'half' ? booking.total_amount * HALF_PAYMENT_MULTIPLIER : booking.total_amount
           })
           .eq('id', booking.id);
 
