@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+import { BOOKING_STATUS } from "../lib/constants/booking";
 
 interface AdminBookingStats {
   totalBookings: number;
@@ -70,12 +71,12 @@ export const useAdminBookingStats = () => {
 
       // Calculate basic stats
       const totalBookings = bookings.length;
-      const confirmedBookings = bookings.filter(b => b.status === 'confirmed').length;
-      const pendingBookings = bookings.filter(b => b.status === 'pending').length;
-      const cancelledBookings = bookings.filter(b => b.status === 'cancelled').length;
+      const confirmedBookings = bookings.filter(b => b.status === BOOKING_STATUS.CONFIRMED).length;
+      const pendingBookings = bookings.filter(b => b.status === BOOKING_STATUS.PENDING).length;
+      const cancelledBookings = bookings.filter(b => b.status === BOOKING_STATUS.CANCELLED).length;
       
       const totalRevenue = bookings
-        .filter(b => b.status === 'confirmed')
+        .filter(b => b.status === BOOKING_STATUS.CONFIRMED)
         .reduce((sum, b) => sum + (b.total_amount || 0), 0);
       
       const averageBookingValue = confirmedBookings > 0 ? totalRevenue / confirmedBookings : 0;
@@ -100,7 +101,7 @@ export const useAdminBookingStats = () => {
       });
 
       const monthlyRevenue = thisMonthBookings
-        .filter(b => b.status === 'confirmed')
+        .filter(b => b.status === BOOKING_STATUS.CONFIRMED)
         .reduce((sum, b) => sum + (b.total_amount || 0), 0);
 
       // Calculate growth rates
@@ -109,7 +110,7 @@ export const useAdminBookingStats = () => {
       const bookingsGrowth = lastMonthCount > 0 ? ((thisMonthCount - lastMonthCount) / lastMonthCount) * 100 : 0;
       
       const lastMonthRevenue = lastMonthBookings
-        .filter(b => b.status === 'confirmed')
+        .filter(b => b.status === BOOKING_STATUS.CONFIRMED)
         .reduce((sum, b) => sum + (b.total_amount || 0), 0);
       const revenueGrowth = lastMonthRevenue > 0 ? ((monthlyRevenue - lastMonthRevenue) / lastMonthRevenue) * 100 : 0;
 
@@ -129,10 +130,10 @@ export const useAdminBookingStats = () => {
         });
         
         const monthRevenue = monthBookings
-          .filter(b => b.status === 'confirmed')
+          .filter(b => b.status === BOOKING_STATUS.CONFIRMED)
           .reduce((sum, b) => sum + (b.total_amount || 0), 0);
         
-        const monthCancellations = monthBookings.filter(b => b.status === 'cancelled').length;
+        const monthCancellations = monthBookings.filter(b => b.status === BOOKING_STATUS.CANCELLED).length;
         
         monthlyData.push({
           month: monthNames[month],
@@ -177,7 +178,7 @@ export const useAdminBookingStats = () => {
 
       // Calculate occupancy rate based on actual nights booked vs available nights
       // Get confirmed bookings for current month
-      const currentMonthConfirmed = thisMonthBookings.filter(b => b.status === 'confirmed');
+      const currentMonthConfirmed = thisMonthBookings.filter(b => b.status === BOOKING_STATUS.CONFIRMED);
       
       // Calculate total nights booked this month
       let totalNightsBooked = 0;
