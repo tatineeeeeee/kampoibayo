@@ -3,6 +3,7 @@ import { sendEmail } from "@/app/utils/emailService";
 import { sendSMS, createBookingRescheduleSMS } from "@/app/utils/smsService";
 import { validateInternalOrAdmin, authErrorResponse, AuthFailure } from "@/app/utils/serverAuth";
 import { escapeHtml } from "@/app/utils/escapeHtml";
+import { CHECK_IN_TIME, CHECK_OUT_TIME } from "@/app/lib/constants/booking";
 
 export async function POST(request: NextRequest) {
   try {
@@ -60,8 +61,8 @@ export async function POST(request: NextRequest) {
           </div>
           <div>
             <h4 style="color: #059669; margin: 10px 0;">New Dates:</h4>
-            <p style="margin: 5px 0; font-weight: bold; color: #059669;">Check-in: ${newCheckIn} at 3:00 PM</p>
-            <p style="margin: 5px 0; font-weight: bold; color: #059669;">Check-out: ${newCheckOut} at 1:00 PM</p>
+            <p style="margin: 5px 0; font-weight: bold; color: #059669;">Check-in: ${newCheckIn} at ${CHECK_IN_TIME}</p>
+            <p style="margin: 5px 0; font-weight: bold; color: #059669;">Check-out: ${newCheckOut} at ${CHECK_OUT_TIME}</p>
           </div>
         </div>
 
