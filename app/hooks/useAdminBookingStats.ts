@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
-import { BOOKING_STATUS } from "../lib/constants/booking";
+import { BOOKING_STATUS, RECENT_BOOKINGS_LIMIT } from "../lib/constants/booking";
 
 interface AdminBookingStats {
   totalBookings: number;
@@ -165,7 +165,7 @@ export const useAdminBookingStats = () => {
                  !isNaN(checkIn.getTime()) && 
                  !isNaN(checkOut.getTime());
         })
-        .slice(0, 5)
+        .slice(0, RECENT_BOOKINGS_LIMIT)
         .map(b => ({
           id: b.id,
           guest_name: b.guest_name,

@@ -43,6 +43,9 @@ export const MAX_CONCURRENT_BOOKINGS_PER_DAY = 2;
 /** Maximum number of times a guest can resubmit a rejected review */
 export const MAX_REVIEW_RESUBMISSIONS = 2;
 
+/** Number of recent bookings shown on the admin dashboard */
+export const RECENT_BOOKINGS_LIMIT = 5;
+
 /** Prefix used when formatting booking numbers for display */
 export const BOOKING_NUMBER_PREFIX = "KB-";
 
