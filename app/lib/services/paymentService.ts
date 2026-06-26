@@ -1,5 +1,6 @@
 import { supabase } from "../../supabaseClient";
 import { TablesInsert, TablesUpdate } from "@/database.types";
+import { PAYMENT_STATUS } from "../constants/booking";
 
 /**
  * Payment Service - Wraps all client-side Supabase queries for the payment_proofs table.
@@ -43,7 +44,7 @@ export const paymentService = {
     return supabase
       .from("payment_proofs")
       .select("booking_id")
-      .eq("status", "pending");
+      .eq("status", PAYMENT_STATUS.PENDING);
   },
 
   /** Fetch payment proofs by multiple booking IDs */
