@@ -2,6 +2,16 @@ import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '../supabaseClient';
 import type { User } from '@supabase/supabase-js';
 import type { Database } from '../../database.types';
+import { BOOKING_STATUS } from '../lib/constants/booking';
+import {
+  LOYALTY_ELITE_BOOKINGS,
+  LOYALTY_ELITE_SPENT,
+  LOYALTY_VIP_BOOKINGS,
+  LOYALTY_VIP_SPENT,
+  LOYALTY_REGULAR_BOOKINGS,
+  LOYALTY_REGULAR_SPENT,
+  CUSTOMER_RECENT_BOOKINGS_LIMIT,
+} from '../lib/constants/loyalty';
 
 type Booking = Database['public']['Tables']['bookings']['Row'];
 
@@ -69,11 +79,11 @@ export function useBookingStats(user: User | null) {
         const checkIn = new Date(booking.check_in_date);
         const checkOut = new Date(booking.check_out_date);
         const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24));
-        const status = booking.status || 'pending';
+        const status = booking.status || BOOKING_STATUS.PENDING;
 
-        if (status === 'cancelled') {
+        if (status === BOOKING_STATUS.CANCELLED) {
           cancelledBookings++;
-        } else if (status === 'confirmed') {
+        } else if (status === BOOKING_STATUS.CONFIRMED) {
           totalSpent += booking.total_amount || 0;
           if (checkOut < now) {
             completedBookings++;
@@ -87,14 +97,14 @@ export function useBookingStats(user: User | null) {
       });
 
       let loyaltyStatus: 'New' | 'Regular' | 'VIP' | 'Elite' = 'New';
-      if (completedBookings >= 10 || totalSpent >= 50000) loyaltyStatus = 'Elite';
-      else if (completedBookings >= 5 || totalSpent >= 25000) loyaltyStatus = 'VIP';
-      else if (completedBookings >= 2 || totalSpent >= 10000) loyaltyStatus = 'Regular';
+      if (completedBookings >= LOYALTY_ELITE_BOOKINGS || totalSpent >= LOYALTY_ELITE_SPENT) loyaltyStatus = 'Elite';
+      else if (completedBookings >= LOYALTY_VIP_BOOKINGS || totalSpent >= LOYALTY_VIP_SPENT) loyaltyStatus = 'VIP';
+      else if (completedBookings >= LOYALTY_REGULAR_BOOKINGS || totalSpent >= LOYALTY_REGULAR_SPENT) loyaltyStatus = 'Regular';
 
       setStats({
         totalBookings: bookings?.length || 0, totalNights, totalSpent,
         completedBookings, upcomingBookings, cancelledBookings, pendingBookings,
-        recentBookings: bookings?.slice(0, 3) || [], memberSince, loyaltyStatus
+        recentBookings: bookings?.slice(0, CUSTOMER_RECENT_BOOKINGS_LIMIT) || [], memberSince, loyaltyStatus
       });
     } catch (err) {
       console.error('Error in fetchBookingStats:', err);
