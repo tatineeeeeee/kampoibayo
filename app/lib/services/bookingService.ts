@@ -115,7 +115,7 @@ export const bookingService = {
     return supabase
       .from("bookings")
       .select("id, guest_name, updated_at")
-      .eq("payment_status", "failed");
+      .eq("payment_status", PAYMENT_STATUS.FAILED);
   },
 
   /** Fetch bookings needing payment (confirmed or pending with payment info) */

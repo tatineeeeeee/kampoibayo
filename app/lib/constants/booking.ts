@@ -12,6 +12,7 @@ export const PAYMENT_STATUS = {
   PAID: "paid",
   PAYMENT_REVIEW: "payment_review",
   REJECTED: "rejected",
+  FAILED: "failed",
 } as const;
 
 export const PAYMENT_TYPE = {
