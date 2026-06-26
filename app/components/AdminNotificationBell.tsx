@@ -16,6 +16,7 @@ import {
 import { supabase } from "../supabaseClient";
 import { useRouter } from "next/navigation";
 import { ADMIN_NOTIFICATION_POLL_MS } from "@/app/lib/constants/timeouts";
+import { PAYMENT_STATUS } from "@/app/lib/constants/booking";
 
 interface Notification {
   id: string;
@@ -176,7 +177,7 @@ export default function AdminNotificationBell() {
       const { data: failedPayments } = await supabase
         .from("bookings")
         .select("id, guest_name, updated_at")
-        .eq("payment_status", "failed")
+        .eq("payment_status", PAYMENT_STATUS.FAILED)
         .gte("updated_at", sevenDaysAgo.toISOString())
         .order("updated_at", { ascending: false })
         .limit(10);
