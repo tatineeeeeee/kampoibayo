@@ -9,5 +9,5 @@ export const MAX_CHAT_INPUT_LENGTH = 500;
 /** Debounce delay for search/input fields */
 export const DEBOUNCE_MS = 300;
 
-/** Booking number prefix */
-export const BOOKING_NUMBER_PREFIX = "KB-";
+/** Maximum number of review photos shown in a review preview grid */
+export const MAX_REVIEW_PHOTOS_PREVIEW = 3;

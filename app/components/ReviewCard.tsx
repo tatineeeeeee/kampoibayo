@@ -8,6 +8,7 @@ import {
   CheckCircle,
 } from "lucide-react";
 import Image from "next/image";
+import { MAX_REVIEW_PHOTOS_PREVIEW } from "../lib/constants/ui";
 
 // ── Shared types ────────────────────────────────────────────────────
 
@@ -122,7 +123,7 @@ const ReviewCard = ({
                     (a.display_order || 0) -
                     (b.display_order || 0)
                 )
-                .slice(0, 3)
+                .slice(0, MAX_REVIEW_PHOTOS_PREVIEW)
                 .map((photo) => (
                   <div
                     key={photo.id}

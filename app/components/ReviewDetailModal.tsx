@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 import { renderStars, formatDate } from "./ReviewCard";
 import type { ReviewWithPhotos } from "./ReviewCard";
+import { MAX_REVIEW_PHOTOS_PREVIEW } from "../lib/constants/ui";
 
 interface ReviewDetailModalProps {
   review: ReviewWithPhotos;
@@ -54,7 +55,7 @@ const ReviewDetailModal = ({ review, onClose }: ReviewDetailModalProps) => {
           {/* Photos */}
           {review.review_photos && review.review_photos.length > 0 && (
             <div className="grid grid-cols-3 gap-2 mt-4">
-              {review.review_photos.slice(0, 3).map((photo) => (
+              {review.review_photos.slice(0, MAX_REVIEW_PHOTOS_PREVIEW).map((photo) => (
                 <div key={photo.id} className="relative aspect-square overflow-hidden rounded-lg">
                   <Image
                     src={photo.photo_url}
