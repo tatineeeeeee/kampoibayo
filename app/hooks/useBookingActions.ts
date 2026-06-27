@@ -4,6 +4,7 @@ import { useCallback, useEffect } from "react";
 import { supabase } from "../supabaseClient";
 import { useToastHelpers } from "../components/Toast";
 import type { Booking, PaymentProof } from "../lib/types";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "../lib/constants/booking";
 import type { UseBookingManagementReturn } from "./useBookingManagement";
 import type { UseBookingModalsReturn } from "./useBookingModals";
 
@@ -198,7 +199,7 @@ export function useBookingActions(
                 if (booking.id === payload.new.booking_id) {
                   return {
                     ...booking,
-                    payment_status: "payment_review",
+                    payment_status: PAYMENT_STATUS.PAYMENT_REVIEW,
                     updated_at: new Date().toISOString(),
                   };
                 }
@@ -282,11 +283,11 @@ export function useBookingActions(
 
   const getStatusColor = useCallback((status: string) => {
     switch (status.toLowerCase()) {
-      case "confirmed":
+      case BOOKING_STATUS.CONFIRMED:
         return "bg-success";
-      case "pending":
+      case BOOKING_STATUS.PENDING:
         return "bg-warning";
-      case "cancelled":
+      case BOOKING_STATUS.CANCELLED:
         return "bg-destructive";
       default:
         return "bg-muted-foreground";
@@ -305,7 +306,7 @@ export function useBookingActions(
       );
 
       try {
-        if (newStatus === "confirmed") {
+        if (newStatus === BOOKING_STATUS.CONFIRMED) {
           const { getFreshSession } = await import("../utils/apiTimeout");
           const session = await getFreshSession(supabase);
           if (!session?.access_token) {
@@ -336,7 +337,7 @@ export function useBookingActions(
             cancellation_reason?: string;
           } = { status: newStatus };
 
-          if (newStatus === "cancelled") {
+          if (newStatus === BOOKING_STATUS.CANCELLED) {
             const now = new Date();
             const utcTime = now.getTime();
             const philippinesOffset = 8 * 60 * 60 * 1000;
@@ -424,7 +425,7 @@ export function useBookingActions(
 
         if (
           shouldRefundParam &&
-          booking?.payment_status === "paid" &&
+          booking?.payment_status === PAYMENT_STATUS.PAID &&
           booking?.payment_intent_id
         ) {
           try {
