@@ -3,18 +3,19 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
 import type { Booking, PaymentProof } from "../../../lib/types";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "../../../lib/constants/booking";
 
 // Smart booking workflow status that considers both booking and payment proof
 export function getSmartWorkflowStatus(
   booking: Booking,
   paymentProof?: PaymentProof | null,
 ) {
-  const bookingStatus = booking.status || "pending";
-  const paymentStatus = booking.payment_status || "pending";
+  const bookingStatus = booking.status || BOOKING_STATUS.PENDING;
+  const paymentStatus = booking.payment_status || PAYMENT_STATUS.PENDING;
   const proofStatus = paymentProof?.status || null;
 
   // ✅ CRITICAL FIX: Handle ALL cancellations FIRST - these should block any payment review actions
-  if (bookingStatus === "cancelled") {
+  if (bookingStatus === BOOKING_STATUS.CANCELLED) {
     // Handle USER cancellations
     if (booking.cancelled_by === "user") {
       return {
@@ -52,13 +53,13 @@ export function getSmartWorkflowStatus(
 
   // Handle active booking payment workflow
   if (
-    bookingStatus === "pending" ||
+    bookingStatus === BOOKING_STATUS.PENDING ||
     bookingStatus === "pending_verification" ||
-    paymentStatus === "payment_review" ||
-    paymentStatus === "rejected"
+    paymentStatus === PAYMENT_STATUS.PAYMENT_REVIEW ||
+    paymentStatus === PAYMENT_STATUS.REJECTED
   ) {
     // PRIORITY: Check if payment is under review (payment proof uploaded and pending) - THIS SHOULD BE FIRST
-    if (paymentStatus === "payment_review" || proofStatus === "pending") {
+    if (paymentStatus === PAYMENT_STATUS.PAYMENT_REVIEW || proofStatus === "pending") {
       return {
         step: "payment_review",
         priority: 5,
@@ -69,7 +70,7 @@ export function getSmartWorkflowStatus(
       };
     }
     // Check if payment proof was rejected BY ADMIN - only if no pending proof exists
-    else if (proofStatus === "rejected" || paymentStatus === "rejected") {
+    else if (proofStatus === "rejected" || paymentStatus === PAYMENT_STATUS.REJECTED) {
       return {
         step: "payment_rejected",
         priority: 6,
@@ -98,7 +99,7 @@ export function getSmartWorkflowStatus(
         actionNeeded: "Remind user to upload payment",
       };
     }
-  } else if (bookingStatus === "confirmed") {
+  } else if (bookingStatus === BOOKING_STATUS.CONFIRMED) {
     if (proofStatus === "verified") {
       return {
         step: "completed",
@@ -117,7 +118,7 @@ export function getSmartWorkflowStatus(
         description: "Booking confirmed but payment still under review",
         actionNeeded: "Verify payment proof to complete workflow",
       };
-    } else if (paymentStatus === "paid" || !paymentProof) {
+    } else if (paymentStatus === PAYMENT_STATUS.PAID || !paymentProof) {
       // Walk-in cash bookings or confirmed bookings with no proof needed
       return {
         step: "confirmed",
@@ -125,11 +126,11 @@ export function getSmartWorkflowStatus(
         badge: "bg-success/10 text-success",
         text: "Confirmed",
         description:
-          paymentStatus === "paid"
+          paymentStatus === PAYMENT_STATUS.PAID
             ? "Booking confirmed and paid"
             : "Booking confirmed — awaiting payment",
         actionNeeded:
-          paymentStatus === "paid"
+          paymentStatus === PAYMENT_STATUS.PAID
             ? "Send check-in reminders"
             : "Collect payment from guest",
       };
@@ -138,7 +139,7 @@ export function getSmartWorkflowStatus(
 
   // Standard states
   switch (bookingStatus) {
-    case "completed":
+    case BOOKING_STATUS.COMPLETED:
       return {
         step: "completed",
         priority: 0,
