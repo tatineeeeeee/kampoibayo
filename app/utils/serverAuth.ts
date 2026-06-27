@@ -14,6 +14,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { timingSafeEqual } from 'crypto';
 import { supabaseAdmin } from './supabaseAdmin';
+import { USER_ROLE } from '@/app/lib/constants/roles';
 
 /** Compare two strings in constant time to prevent timing attacks */
 function safeCompare(a: string, b: string): boolean {
@@ -80,7 +81,7 @@ export async function validateAuth(request: NextRequest): Promise<AuthResult> {
       userId: dbUser.id,
       email: dbUser.email,
       name: dbUser.full_name,
-      role: dbUser.role || 'user',
+      role: dbUser.role || USER_ROLE.USER,
       isSuperAdmin: dbUser.is_super_admin === true,
     },
   };
@@ -93,7 +94,7 @@ export async function validateAdminAuth(request: NextRequest): Promise<AuthResul
   const result = await validateAuth(request);
   if (!result.success) return result;
 
-  if (result.user.role !== 'admin' && result.user.role !== 'staff') {
+  if (result.user.role !== USER_ROLE.ADMIN && result.user.role !== USER_ROLE.STAFF) {
     return { success: false, error: 'Admin or staff access required', status: 403 };
   }
 
