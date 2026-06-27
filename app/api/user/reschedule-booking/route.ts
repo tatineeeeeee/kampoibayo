@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { validateAuth, authErrorResponse, AuthFailure } from '@/app/utils/serverAuth';
 import { checkRateLimit, getClientIp } from '@/app/utils/rateLimit';
 import { BASE_RATE_WEEKDAY, BASE_RATE_WEEKEND, EXTRA_GUEST_FEE, INCLUDED_GUESTS, PHILIPPINE_HOLIDAYS, PEAK_SEASON_RANGES } from '@/app/lib/constants/pricing';
-import { BOOKING_STATUS } from '@/app/lib/constants/booking';
+import { BOOKING_STATUS, MAX_RESCHEDULES_PER_BOOKING } from '@/app/lib/constants/booking';
 import { USER_RATE_LIMIT_MAX, RATE_LIMIT_WINDOW_MS } from '@/app/lib/constants/rateLimits';
 
 // Initialize Supabase admin client for database operations
@@ -76,11 +76,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Max 2 reschedules per booking (admin reschedules don't count)
+    // Max reschedules per booking (admin reschedules don't count)
     const rescheduleCount = booking.reschedule_count || 0;
-    if (rescheduleCount >= 2) {
+    if (rescheduleCount >= MAX_RESCHEDULES_PER_BOOKING) {
       return NextResponse.json(
-        { success: false, error: "Maximum 2 reschedules reached. Please contact the resort directly for further changes." },
+        { success: false, error: `Maximum ${MAX_RESCHEDULES_PER_BOOKING} reschedules reached. Please contact the resort directly for further changes.` },
         { status: 400 }
       );
     }

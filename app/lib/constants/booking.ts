@@ -44,6 +44,9 @@ export const MAX_CONCURRENT_BOOKINGS_PER_DAY = 2;
 /** Maximum number of times a guest can resubmit a rejected review */
 export const MAX_REVIEW_RESUBMISSIONS = 2;
 
+/** Maximum number of times a guest can reschedule a single booking */
+export const MAX_RESCHEDULES_PER_BOOKING = 2;
+
 /** Number of recent bookings shown on the admin dashboard */
 export const RECENT_BOOKINGS_LIMIT = 5;
 
