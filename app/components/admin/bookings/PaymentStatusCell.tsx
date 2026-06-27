@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
 import type { Booking, PaymentProof } from "../../../lib/types";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "../../../lib/constants/booking";
 
 // Payment Status Cell - Shows overall booking payment status
 export function PaymentStatusCell({
@@ -89,7 +90,7 @@ export function PaymentStatusCell({
   // Determine the overall payment status based on booking status and payment proof
   const getPaymentStatusDisplay = () => {
     // ✅ CRITICAL FIX: If booking is cancelled, always show cancelled regardless of payment proof status
-    if (booking.status === "cancelled") {
+    if (booking.status === BOOKING_STATUS.CANCELLED) {
       return {
         text: "Cancelled",
         badge: "bg-muted-foreground text-white",
@@ -128,17 +129,17 @@ export function PaymentStatusCell({
     }
 
     // If no payment proof exists, check booking payment_status
-    if (booking.payment_status === "payment_review") {
+    if (booking.payment_status === PAYMENT_STATUS.PAYMENT_REVIEW) {
       return {
         text: "Under Review",
         badge: "bg-warning text-white",
       };
-    } else if (booking.payment_status === "rejected") {
+    } else if (booking.payment_status === PAYMENT_STATUS.REJECTED) {
       return {
         text: "Rejected",
         badge: "bg-destructive text-white",
       };
-    } else if (booking.payment_status === "paid") {
+    } else if (booking.payment_status === PAYMENT_STATUS.PAID) {
       return {
         text: "Verified",
         badge: "bg-success text-white",
