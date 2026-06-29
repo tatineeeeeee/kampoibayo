@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "../supabaseClient";
+import { BOOKING_STATUS } from "../lib/constants/booking";
 
 // Optimized stats interface
 export interface DashboardStats {
@@ -82,21 +83,21 @@ export function useAdminDashboard() {
           for (const b of bookings) {
             const amount = b.total_amount || 0;
             switch (b.status) {
-              case "confirmed":
+              case BOOKING_STATUS.CONFIRMED:
                 confirmedBookings++;
                 confirmedRevenue += amount;
                 totalRevenue += amount;
                 break;
-              case "completed":
+              case BOOKING_STATUS.COMPLETED:
                 completedBookingsCount++;
                 completedRevenue += amount;
                 totalRevenue += amount;
                 break;
-              case "pending":
+              case BOOKING_STATUS.PENDING:
                 pendingBookings++;
                 totalRevenue += amount;
                 break;
-              case "cancelled":
+              case BOOKING_STATUS.CANCELLED:
                 cancelledBookings++;
                 break;
             }
@@ -172,14 +173,14 @@ export function useAdminDashboard() {
             }
 
             const current = monthlyData.get(monthKey)!;
-            if (booking.status === "confirmed") {
+            if (booking.status === BOOKING_STATUS.CONFIRMED) {
               current.confirmed += 1;
               current.revenue += booking.total_amount || 0;
-            } else if (booking.status === "cancelled") {
+            } else if (booking.status === BOOKING_STATUS.CANCELLED) {
               current.cancelled += 1;
-            } else if (booking.status === "pending") {
+            } else if (booking.status === BOOKING_STATUS.PENDING) {
               current.pending += 1;
-            } else if (booking.status === "completed") {
+            } else if (booking.status === BOOKING_STATUS.COMPLETED) {
               current.completed += 1;
               current.revenue += booking.total_amount || 0;
             }
