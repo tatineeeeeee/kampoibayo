@@ -3,6 +3,11 @@
 import React from "react";
 import Link from "next/link";
 import { Tables } from "../../../database.types";
+import {
+  BOOKING_STATUS,
+  PAYMENT_STATUS,
+  MAX_RESCHEDULES_PER_BOOKING,
+} from "../../lib/constants/booking";
 import { formatBookingNumber } from "../../utils/bookingNumber";
 import { displayPhoneNumber } from "../../utils/phoneUtils";
 import {
@@ -73,13 +78,13 @@ export function BookingCard({
             </div>
           </div>
           <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
-            {getStatusIcon(booking.status || "pending")}
+            {getStatusIcon(booking.status || BOOKING_STATUS.PENDING)}
             <span
               className={`px-2 py-1 rounded-full text-xs font-semibold text-foreground ${getStatusColor(
-                booking.status || "pending"
+                booking.status || BOOKING_STATUS.PENDING
               )}`}
             >
-              {getStatusDisplayName(booking.status || "pending")}
+              {getStatusDisplayName(booking.status || BOOKING_STATUS.PENDING)}
             </span>
           </div>
         </div>
@@ -91,7 +96,7 @@ export function BookingCard({
       </div>
 
       {/* Expiration Warning */}
-      {shouldShowExpirationWarning(booking.created_at, booking.status || "pending") && (
+      {shouldShowExpirationWarning(booking.created_at, booking.status || BOOKING_STATUS.PENDING) && (
         <div className="mb-3 sm:mb-4 p-2 sm:p-3 bg-warning/10 border border-warning/20 rounded-lg">
           <div className="flex items-start gap-2">
             <AlertTriangle className="w-3 h-3 sm:w-4 sm:h-4 text-warning flex-shrink-0 mt-0.5" />
@@ -149,11 +154,11 @@ export function BookingCard({
           <PhilippinePeso className="w-3 h-3 text-primary flex-shrink-0" />
           <div className="min-w-0 flex-1">
             <p className="text-[10px] sm:text-xs text-muted-foreground">
-              {booking.payment_status === "paid" || booking.payment_status === "verified"
+              {booking.payment_status === PAYMENT_STATUS.PAID || booking.payment_status === "verified"
                 ? booking.payment_type === "half"
                   ? "50% Down"
                   : "Paid"
-                : booking.payment_status === "payment_review"
+                : booking.payment_status === PAYMENT_STATUS.PAYMENT_REVIEW
                   ? "Under Review"
                   : booking.payment_type === "half"
                     ? "50% Down"
@@ -202,7 +207,7 @@ export function BookingCard({
         })()}
 
       {/* Payment Proof Status */}
-      {booking.status === "pending" && (
+      {booking.status === BOOKING_STATUS.PENDING && (
         <UserPaymentProofStatus
           key={`payment-status-${booking.id}-${refreshTrigger}`}
           bookingId={booking.id}
@@ -226,7 +231,7 @@ export function BookingCard({
           </button>
 
           {/* Receipt Button */}
-          {booking.status === "confirmed" && (
+          {booking.status === BOOKING_STATUS.CONFIRMED && (
             <ReceiptManager
               booking={booking}
               userEmail={user?.email || ""}
@@ -239,7 +244,7 @@ export function BookingCard({
           )}
 
           {/* Upload Payment Proof Button */}
-          {(booking.status === "pending" || booking.payment_status === "pending") && (
+          {(booking.status === BOOKING_STATUS.PENDING || booking.payment_status === PAYMENT_STATUS.PENDING) && (
             <PaymentProofUploadButton
               key={`upload-button-${booking.id}-${refreshTrigger}`}
               bookingId={booking.id}
@@ -256,7 +261,7 @@ export function BookingCard({
               <Calendar className="w-3 h-3" />
               Resched{" "}
               {(booking.reschedule_count || 0) > 0 && (
-                <span className="text-warning text-[10px]">({booking.reschedule_count}/2)</span>
+                <span className="text-warning text-[10px]">({booking.reschedule_count}/{MAX_RESCHEDULES_PER_BOOKING})</span>
               )}
             </button>
           ) : (
@@ -268,8 +273,8 @@ export function BookingCard({
                 <Calendar className="w-3 h-3" />
                 {bookingsWithPendingProofs.has(booking.id)
                   ? "Under Review"
-                  : (booking.reschedule_count || 0) >= 2
-                    ? "Resched (2/2)"
+                  : (booking.reschedule_count || 0) >= MAX_RESCHEDULES_PER_BOOKING
+                    ? `Resched (${MAX_RESCHEDULES_PER_BOOKING}/${MAX_RESCHEDULES_PER_BOOKING})`
                     : "Resched"}
               </button>
             )
@@ -285,7 +290,7 @@ export function BookingCard({
               Cancel
             </button>
           ) : (
-            booking.status?.toLowerCase() !== "cancelled" && (
+            booking.status?.toLowerCase() !== BOOKING_STATUS.CANCELLED && (
               <button
                 disabled
                 className="bg-muted-foreground text-muted-foreground px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold cursor-not-allowed flex items-center justify-center gap-1 min-h-[44px]"
