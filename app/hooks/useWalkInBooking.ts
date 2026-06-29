@@ -17,6 +17,12 @@ import {
   MAX_GUESTS,
   PHILIPPINE_HOLIDAYS,
 } from "../lib/constants/pricing";
+import {
+  BOOKING_STATUS,
+  PAYMENT_STATUS,
+  PAYMENT_TYPE,
+} from "../lib/constants/booking";
+import { USER_ROLE } from "../lib/constants/roles";
 
 export function useWalkInBooking() {
   const router = useRouter();
@@ -51,7 +57,7 @@ export function useWalkInBooking() {
   useEffect(() => {
     if (
       !authLoading &&
-      (!user || (userRole !== "admin" && userRole !== "staff"))
+      (!user || (userRole !== USER_ROLE.ADMIN && userRole !== USER_ROLE.STAFF))
     ) {
       router.replace("/admin");
     }
@@ -222,7 +228,7 @@ export function useWalkInBooking() {
       const { data: conflictingBookings, error: conflictError } = await supabase
         .from("bookings")
         .select("id, check_in_date, check_out_date, status")
-        .in("status", ["confirmed", "pending"])
+        .in("status", [BOOKING_STATUS.CONFIRMED, BOOKING_STATUS.PENDING])
         .or(
           `and(check_in_date.lt.${selectedCheckOut}T13:00:00,check_out_date.gt.${selectedCheckIn}T15:00:00)`,
         );
@@ -272,11 +278,11 @@ export function useWalkInBooking() {
         check_out_date: checkOutDateTime,
         brings_pet: bringsPet,
         special_requests: walkInNote,
-        status: "confirmed",
+        status: BOOKING_STATUS.CONFIRMED,
         total_amount: totalAmount,
-        payment_type: "full" as const,
+        payment_type: PAYMENT_TYPE.FULL,
         payment_amount: totalAmount,
-        payment_status: "paid",
+        payment_status: PAYMENT_STATUS.PAID,
       };
 
       const { data, error } = await supabase
