@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "../supabaseClient";
 import { useToastHelpers } from "../components/Toast";
 import { Tables } from "../../database.types";
+import { USER_ROLE } from "../lib/constants/roles";
 import { Crown } from "lucide-react";
 import { createElement } from "react";
 
@@ -68,7 +69,7 @@ export function useUserManagement() {
         if (userError) {
           console.error("❌ Error fetching current user:", userError);
         } else {
-          const isAdmin = currentUserData?.role === "admin";
+          const isAdmin = currentUserData?.role === USER_ROLE.ADMIN;
           setIsCurrentUserAdmin(isAdmin);
           setCurrentUserRole(currentUserData?.role || null);
           // For now, treat all admins as having full admin powers until super admin column is added
@@ -192,7 +193,7 @@ export function useUserManagement() {
   // Permission check: Can current user delete the target user?
   const canDeleteUser = (targetUser: User): boolean => {
     // Staff cannot delete anyone
-    if (currentUserRole === "staff") return false;
+    if (currentUserRole === USER_ROLE.STAFF) return false;
 
     // Cannot delete yourself
     if (targetUser.id === currentUserId) return false;
@@ -201,7 +202,7 @@ export function useUserManagement() {
     if (targetUser.is_super_admin) return false;
 
     // Only Super Admin can delete other admins
-    if (targetUser.role === "admin" && !isCurrentUserSuperAdmin) return false;
+    if (targetUser.role === USER_ROLE.ADMIN && !isCurrentUserSuperAdmin) return false;
 
     // Admins and Super Admins can delete users and staff
     return isCurrentUserAdmin || isCurrentUserSuperAdmin;
@@ -210,7 +211,7 @@ export function useUserManagement() {
   // Permission check: Can current user edit the target user's role?
   const canEditUserRole = (targetUser: User): boolean => {
     // Staff cannot edit roles
-    if (currentUserRole === "staff") return false;
+    if (currentUserRole === USER_ROLE.STAFF) return false;
 
     // Cannot edit your own role (must be done by another admin)
     if (targetUser.id === currentUserId) return false;
@@ -219,7 +220,7 @@ export function useUserManagement() {
     if (targetUser.is_super_admin) return false;
 
     // Only Super Admin can change other admin's roles
-    if (targetUser.role === "admin" && !isCurrentUserSuperAdmin) return false;
+    if (targetUser.role === USER_ROLE.ADMIN && !isCurrentUserSuperAdmin) return false;
 
     // Admins and Super Admins can edit users and staff roles
     return isCurrentUserAdmin || isCurrentUserSuperAdmin;
@@ -227,7 +228,7 @@ export function useUserManagement() {
 
   // Permission check: Can current user create new users?
   const canCreateUser = (): boolean => {
-    if (currentUserRole === "staff") return false;
+    if (currentUserRole === USER_ROLE.STAFF) return false;
     return isCurrentUserAdmin || isCurrentUserSuperAdmin;
   };
 
@@ -364,11 +365,11 @@ export function useUserManagement() {
       return "bg-gradient-to-r from-warning/20 to-warning/10 text-warning border border-warning/20 shadow-sm";
     }
     switch (role) {
-      case "admin":
+      case USER_ROLE.ADMIN:
         return "bg-info/10 text-primary border border-info/20";
-      case "staff":
+      case USER_ROLE.STAFF:
         return "bg-info/10 text-primary border border-info/20";
-      case "user":
+      case USER_ROLE.USER:
       default:
         return "bg-success/10 text-success border border-success/20";
     }
@@ -381,7 +382,7 @@ export function useUserManagement() {
         "span",
         {
           className: `inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${getRoleBadgeClass(
-            user.role || "admin",
+            user.role || USER_ROLE.ADMIN,
             true
           )}`,
         },
@@ -393,10 +394,10 @@ export function useUserManagement() {
       "span",
       {
         className: `inline-flex px-2 py-1 text-xs font-medium rounded-full ${getRoleBadgeClass(
-          user.role || "user"
+          user.role || USER_ROLE.USER
         )}`,
       },
-      user.role || "user"
+      user.role || USER_ROLE.USER
     );
   };
 
