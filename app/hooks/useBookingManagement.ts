@@ -6,6 +6,7 @@ import { useToastHelpers } from "../components/Toast";
 import { getFreshSession } from "../utils/apiTimeout";
 import type { Booking, PaymentProof, PaymentHistoryEntry } from "../lib/types";
 import { ITEMS_PER_PAGE } from "../lib/constants";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "../lib/constants/booking";
 import {
   formatBookingNumber,
   parseBookingNumber,
@@ -230,10 +231,10 @@ export function useBookingManagement(): UseBookingManagementReturn {
         const currentStatusFilter = statusFilterRef.current;
 
         const sortedBookings = bookingsWithUserStatus.sort((a, b) => {
-          const statusA = a.status || "pending";
-          const statusB = b.status || "pending";
-          const paymentStatusA = a.payment_status || "pending";
-          const paymentStatusB = b.payment_status || "pending";
+          const statusA = a.status || BOOKING_STATUS.PENDING;
+          const statusB = b.status || BOOKING_STATUS.PENDING;
+          const paymentStatusA = a.payment_status || PAYMENT_STATUS.PENDING;
+          const paymentStatusB = b.payment_status || PAYMENT_STATUS.PENDING;
 
           const getPriority = (
             status: string,
@@ -241,13 +242,13 @@ export function useBookingManagement(): UseBookingManagementReturn {
             cancelledBy: string | null,
           ) => {
             if (
-              currentStatusFilter === "cancelled" &&
-              status === "cancelled"
+              currentStatusFilter === BOOKING_STATUS.CANCELLED &&
+              status === BOOKING_STATUS.CANCELLED
             ) {
               return 90;
             }
 
-            if (status === "cancelled") {
+            if (status === BOOKING_STATUS.CANCELLED) {
               if (cancelledBy === "user") {
                 return 99;
               } else if (cancelledBy === "admin") {
@@ -259,14 +260,14 @@ export function useBookingManagement(): UseBookingManagementReturn {
 
             if (
               status === "pending_verification" ||
-              paymentStatus === "payment_review"
+              paymentStatus === PAYMENT_STATUS.PAYMENT_REVIEW
             )
               return 1;
 
-            if (paymentStatus === "rejected") return 2;
-            if (status === "pending") return 3;
-            if (status === "confirmed") return 4;
-            if (status === "completed") return 5;
+            if (paymentStatus === PAYMENT_STATUS.REJECTED) return 2;
+            if (status === BOOKING_STATUS.PENDING) return 3;
+            if (status === BOOKING_STATUS.CONFIRMED) return 4;
+            if (status === BOOKING_STATUS.COMPLETED) return 5;
 
             return 6;
           };
@@ -336,8 +337,8 @@ export function useBookingManagement(): UseBookingManagementReturn {
           if (payload.eventType === "UPDATE" && payload.new) {
             // Show alert for payment proof uploads
             if (
-              payload.old?.payment_status !== "payment_review" &&
-              payload.new.payment_status === "payment_review"
+              payload.old?.payment_status !== PAYMENT_STATUS.PAYMENT_REVIEW &&
+              payload.new.payment_status === PAYMENT_STATUS.PAYMENT_REVIEW
             ) {
               if (!document.hidden) {
                 success(
@@ -350,8 +351,8 @@ export function useBookingManagement(): UseBookingManagementReturn {
 
             // Handle ANY cancellation - auto-cancel payment proofs when booking is cancelled
             if (
-              payload.old?.status !== "cancelled" &&
-              payload.new.status === "cancelled"
+              payload.old?.status !== BOOKING_STATUS.CANCELLED &&
+              payload.new.status === BOOKING_STATUS.CANCELLED
             ) {
               const cancelPaymentProofs = async () => {
                 try {
