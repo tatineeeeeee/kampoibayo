@@ -8,11 +8,6 @@ export default function SMSTestPage() {
   const { user, userRole, loading: authLoading } = useAuth();
   const router = useRouter();
 
-  // Block access in production — dev/testing tool only
-  if (process.env.NODE_ENV === "production") {
-    router.push("/admin");
-    return null;
-  }
   const [phoneNumber, setPhoneNumber] = useState("");
   const [testType, setTestType] = useState("basic");
   const [result, setResult] = useState<{
@@ -23,10 +18,20 @@ export default function SMSTestPage() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    // Block access in production — dev/testing tool only
+    if (process.env.NODE_ENV === "production") {
+      router.push("/admin");
+      return;
+    }
     if (!authLoading && (!user || userRole !== "admin")) {
       router.push("/auth");
     }
   }, [user, userRole, authLoading, router]);
+
+  // Guard render in production (and during prerender) — redirect handled in effect
+  if (process.env.NODE_ENV === "production") {
+    return null;
+  }
 
   if (authLoading || !user || userRole !== "admin") {
     return (
