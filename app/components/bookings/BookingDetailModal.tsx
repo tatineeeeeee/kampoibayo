@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Tables } from "../../../database.types";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "../../lib/constants/booking";
 import { formatBookingNumber } from "../../utils/bookingNumber";
 import { displayPhoneNumber } from "../../utils/phoneUtils";
 import { PaymentBreakdownDetail } from "./PaymentBreakdown";
@@ -99,13 +100,13 @@ export function BookingDetailModal({
                 </div>
               </div>
               <div className="flex items-center gap-2 flex-shrink-0">
-                {getStatusIcon(booking.status || "pending")}
+                {getStatusIcon(booking.status || BOOKING_STATUS.PENDING)}
                 <span
                   className={`px-2 sm:px-3 py-1 rounded-full text-xs font-semibold text-foreground ${getStatusColor(
-                    booking.status || "pending"
+                    booking.status || BOOKING_STATUS.PENDING
                   )}`}
                 >
-                  {getStatusDisplayName(booking.status || "pending")}
+                  {getStatusDisplayName(booking.status || BOOKING_STATUS.PENDING)}
                 </span>
               </div>
             </div>
@@ -218,18 +219,18 @@ export function BookingDetailModal({
               <div className="bg-card/60 backdrop-blur-sm p-3 sm:p-4 rounded-lg border border-primary/20/30 dark:border-border/30">
                 <p className="text-xs text-muted-foreground mb-1">Payment Status</p>
                 <div className="flex items-center gap-2">
-                  {booking.payment_status === "paid" ||
+                  {booking.payment_status === PAYMENT_STATUS.PAID ||
                   booking.payment_status === "verified" ? (
                     <>
                       <CheckCircle2 className="w-3 h-3 text-success flex-shrink-0" />
                       <span className="text-sm font-medium text-success">Payment Verified</span>
                     </>
-                  ) : booking.payment_status === "payment_review" ? (
+                  ) : booking.payment_status === PAYMENT_STATUS.PAYMENT_REVIEW ? (
                     <>
                       <HourglassIcon className="w-3 h-3 text-warning flex-shrink-0" />
                       <span className="text-sm font-medium text-warning">Under Review</span>
                     </>
-                  ) : booking.payment_status === "rejected" ? (
+                  ) : booking.payment_status === PAYMENT_STATUS.REJECTED ? (
                     <>
                       <AlertTriangle className="w-3 h-3 text-destructive flex-shrink-0" />
                       <span className="text-sm font-medium text-destructive">
@@ -332,7 +333,7 @@ export function BookingDetailModal({
                     ? new Date(booking.created_at).toLocaleDateString()
                     : "N/A"}
                 </p>
-                {booking.status?.toLowerCase() === "cancelled" && booking.cancelled_by && (
+                {booking.status?.toLowerCase() === BOOKING_STATUS.CANCELLED && booking.cancelled_by && (
                   <div className="border-t border-border pt-2 mt-2">
                     <p className="text-destructive text-xs sm:text-sm font-medium flex items-center gap-1">
                       <XCircle className="w-3 h-3" /> Cancelled by{" "}
@@ -445,7 +446,7 @@ export function BookingDetailModal({
           ) : (
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-2">
               {!canCancelBooking(booking) &&
-                booking.status?.toLowerCase() !== "cancelled" && (
+                booking.status?.toLowerCase() !== BOOKING_STATUS.CANCELLED && (
                   <button
                     disabled
                     className="bg-muted-foreground text-muted-foreground px-4 py-2 rounded-lg text-sm font-semibold cursor-not-allowed"
