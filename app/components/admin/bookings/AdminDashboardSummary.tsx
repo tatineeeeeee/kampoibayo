@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
+import { BOOKING_STATUS } from "../../../lib/constants/booking";
 
 // Component to show admin dashboard summary
 export function AdminDashboardSummary() {
@@ -37,7 +38,7 @@ export function AdminDashboardSummary() {
         setStats({
           pendingPayments: pendingProofs?.length || 0,
           pendingBookings:
-            allBookings?.filter((b) => b.status === "pending").length || 0,
+            allBookings?.filter((b) => b.status === BOOKING_STATUS.PENDING).length || 0,
           todayCheckIns:
             allBookings?.filter((b) => b.check_in_date === today).length || 0,
           totalRevenue:
