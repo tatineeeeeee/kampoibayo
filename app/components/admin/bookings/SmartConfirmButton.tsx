@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "../../../supabaseClient";
 import type { Booking, PaymentProof } from "../../../lib/types";
+import { PAYMENT_STATUS } from "../../../lib/constants/booking";
 
 // Smart Confirm Button - Only allows confirmation after payment verification
 export function SmartConfirmButton({
@@ -86,7 +87,7 @@ export function SmartConfirmButton({
   }
 
   // Can only confirm if: proof is verified AND booking payment is verified/paid (no outstanding balance)
-  const bookingPaymentOk = booking.payment_status === "verified" || booking.payment_status === "paid";
+  const bookingPaymentOk = booking.payment_status === "verified" || booking.payment_status === PAYMENT_STATUS.PAID;
   const canConfirm = paymentProof && paymentProof.status === "verified" && bookingPaymentOk;
 
   if (!canConfirm) {
