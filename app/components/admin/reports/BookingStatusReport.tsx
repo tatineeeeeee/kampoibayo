@@ -6,6 +6,7 @@ import {
   PhilippinePeso,
 } from "lucide-react";
 import { Tables } from "@/database.types";
+import { BOOKING_STATUS, PAYMENT_STATUS } from "@/app/lib/constants/booking";
 import {
   BarChart,
   Bar,
@@ -53,7 +54,7 @@ export default function BookingStatusReport({
 
                   // When "All Status", exclude cancelled; otherwise respect the filter
                   const chartBookings = statusFilter === "all"
-                    ? filteredBookings.filter((b) => b.status === "confirmed" || b.status === "completed")
+                    ? filteredBookings.filter((b) => b.status === BOOKING_STATUS.CONFIRMED || b.status === BOOKING_STATUS.COMPLETED)
                     : filteredBookings;
                   chartBookings.forEach((booking) => {
                     const status = booking.payment_status || "unknown";
@@ -61,10 +62,10 @@ export default function BookingStatusReport({
 
                     // Group similar statuses
                     let displayStatus;
-                    if (status === "paid" || status === "verified") {
+                    if (status === PAYMENT_STATUS.PAID || status === "verified") {
                       displayStatus = "Paid/Verified";
                     } else if (
-                      status === "pending" ||
+                      status === PAYMENT_STATUS.PENDING ||
                       status === "partial"
                     ) {
                       displayStatus = "Pending/Partial";
@@ -121,12 +122,12 @@ export default function BookingStatusReport({
 
                 // When "All Status", exclude cancelled; otherwise respect the filter
                 (statusFilter === "all"
-                  ? filteredBookings.filter((b) => b.status === "confirmed" || b.status === "completed")
+                  ? filteredBookings.filter((b) => b.status === BOOKING_STATUS.CONFIRMED || b.status === BOOKING_STATUS.COMPLETED)
                   : filteredBookings
                 )
                   .filter(
                     (b) =>
-                      b.payment_status === "paid" ||
+                      b.payment_status === PAYMENT_STATUS.PAID ||
                       b.payment_status === "verified",
                   )
                   .forEach((booking) => {
@@ -201,7 +202,7 @@ export default function BookingStatusReport({
           (() => {
             // When "All Status", exclude cancelled; otherwise respect the filter
             const activeBookings = statusFilter === "all"
-              ? filteredBookings.filter((b) => b.status === "confirmed" || b.status === "completed")
+              ? filteredBookings.filter((b) => b.status === BOOKING_STATUS.CONFIRMED || b.status === BOOKING_STATUS.COMPLETED)
               : filteredBookings;
             const walkIns = activeBookings.filter((b) =>
               String(b.special_requests || "").startsWith("[WALK-IN]"),
