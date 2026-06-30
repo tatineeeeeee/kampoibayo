@@ -5,6 +5,7 @@ import { supabase } from "../../../supabaseClient";
 import { SmartConfirmButton } from "./SmartConfirmButton";
 import { PaymentProofButton } from "./PaymentProofButton";
 import type { Booking, PaymentProof } from "../../../lib/types";
+import { BOOKING_STATUS } from "../../../lib/constants/booking";
 
 interface BookingStatusActionsProps {
   selectedBooking: Booking;
@@ -36,7 +37,7 @@ export function BookingStatusActions({
   return (
     <div className="space-y-4">
       {/* Status Banner - Adapts based on booking status */}
-      {selectedBooking.status === "confirmed" && (
+      {selectedBooking.status === BOOKING_STATUS.CONFIRMED && (
         <div className="bg-success/10 border border-success/20 rounded-lg p-3">
           <div className="flex items-center gap-2">
             <span className="text-success text-lg">●</span>
@@ -66,12 +67,12 @@ export function BookingStatusActions({
           <h4 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
             <span
               className={`w-2 h-2 rounded-full ${
-                selectedBooking.status === "confirmed"
+                selectedBooking.status === BOOKING_STATUS.CONFIRMED
                   ? "bg-success"
                   : "bg-warning"
               }`}
             ></span>
-            {selectedBooking.status === "confirmed"
+            {selectedBooking.status === BOOKING_STATUS.CONFIRMED
               ? "Payment Verified"
               : "Payment Verification"}
           </h4>
@@ -132,13 +133,13 @@ export function BookingStatusActions({
           </h4>
           <div className="flex flex-col gap-2">
             {/* Only show Confirm button for pending bookings */}
-            {selectedBooking.status === "pending" && (
+            {selectedBooking.status === BOOKING_STATUS.PENDING && (
               <SmartConfirmButton
                 booking={selectedBooking}
                 variant="modal"
                 refreshKey={refreshTrigger}
                 onConfirm={(bookingId) => {
-                  onUpdateBookingStatus(bookingId, "confirmed");
+                  onUpdateBookingStatus(bookingId, BOOKING_STATUS.CONFIRMED);
                   onClose();
                 }}
               />
@@ -160,7 +161,7 @@ export function BookingStatusActions({
             <button
               onClick={() => onSetShowCancelModal(true)}
               className={`w-full px-4 py-2 rounded-md text-sm font-semibold transition flex items-center justify-center gap-2 ${
-                selectedBooking.status === "confirmed"
+                selectedBooking.status === BOOKING_STATUS.CONFIRMED
                   ? "bg-destructive/100 text-white hover:bg-destructive"
                   : "bg-muted text-destructive hover:bg-destructive/10 border border-destructive/20"
               }`}
