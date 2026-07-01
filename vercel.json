@@ -1,4 +1,5 @@
 {
+  // Vercel deployment configuration for Kampo Ibayo Resort
   "functions": {
     "app/api/user/generate-receipt/route.ts": {
       "maxDuration": 15,
