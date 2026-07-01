@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm list *)",
+      "Bash(Get-ChildItem -Path \"d:\\\\kampoibayow\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(Format-Table -AutoSize)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(npx vitest *)",
+      "Bash(git push *)",
+      "Bash(npx tsc *)",
+      "Bash(timeout 300 npm run build)",
+      "Bash(git fetch *)"
+    ]
+  }
+}
