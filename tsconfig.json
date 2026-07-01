@@ -1,4 +1,6 @@
 {
+  // TypeScript configuration for Kampo Ibayo Resort project
+  // Targets ES2018 with Next.js 16 support and strict type checking
   "compilerOptions": {
     "target": "ES2018",
     "lib": [
